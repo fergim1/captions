@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import YoutubePlayer from 'react-player/youtube';
 
+const url_server = import.meta.env.VITE_URL_SERVER
+
 
 function App () {
   const [videoId, setVideoId] = useState('');
@@ -15,7 +17,7 @@ function App () {
     if (!videoId) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/api/transcript?videoId=${videoId}`);
+      const response = await fetch(`${url_server}/api/transcript?videoId=${videoId}`);
       if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
       const data = await response.json();
       // Normaliza los valores de start y dur en el transcript
