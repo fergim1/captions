@@ -20,6 +20,8 @@ function App () {
       const response = await fetch(`${url_server}/api/transcript?videoId=${videoId}`);
       if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
       const data = await response.json();
+
+      console.log(data)
       // Normaliza los valores de start y dur en el transcript
       const normalizedData = data.map(segment => ({
         ...segment,
