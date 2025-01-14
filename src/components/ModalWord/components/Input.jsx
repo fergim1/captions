@@ -18,7 +18,7 @@ export const Input = ({ setVideoId }) => {
 
 
   return (
-    <div className="wrapper-input animate__animated animate__zoomIn" >
+    <div className="wrapper-input" >
       <p className='title-input'> Pegar un link de un video de Youtube</p>
       <input
         className='input'

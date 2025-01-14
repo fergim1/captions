@@ -9,7 +9,8 @@ import { useEffect } from 'react';
 
 
 function App () {
-  // const [link, setLink] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [videoId, setVideoId] = useState("");
   const [transcript, setTranscript] = useState(null);
   const [translatedText, setTranslatedText] = useState('');
@@ -27,7 +28,17 @@ function App () {
 
 
   useEffect(() => {
-    fetchSubtitles(videoId, 'en', setTranscript, setTranslatedText);
+    try {
+      setLoading(true)
+      setError(null)
+      fetchSubtitles(videoId, 'en', setTranscript, setTranslatedText);
+
+    } catch (error) {
+      setError(true)
+    }
+    finally {
+      setLoading(false)
+    }
   }, [videoId])
 
 
@@ -138,62 +149,66 @@ function App () {
 
           </div>
         </div>}
-      {transcript &&
-        <div className="container-subtitulo-y-traduccion">
-          <div className='caja-subtitles'
-            ref={originalBoxRef}
-            onScroll={() => syncScroll(originalBoxRef, translatedBoxRef)}
-          >
-            <ul className='ul-subtitles'>
-              {transcript.map((item, index) => (
-                <li
-                  className='li-subtitles'
-                  key={index}
-                  id={`subtitle-${index}`}
-                  onClick={() => handleSeek(item)}
-                  style={{
-                    backgroundColor: index === currentSegmentIndex ? "#3b3b3b" : "transparent"
-                  }}
-                >
-                  <code className='time-subtitle'> {(item.start / 100).toFixed(2)}</code>
-                  {/* {item.text.split(" ").map((word, wordIndex) => ( */}
-                  <div className='text-wrapper'>
-                    <span
-                      className='text-subtitle'
-                    // key={`${index}-${wordIndex}`}
-                    // onMouseDown={() => handleLongPressStart(word)} // Para escritorio
-                    // onMouseUp={handleLongPressEnd} // Para escritorio
-                    // onDoubleClick={() => handleDoubleClick(word)} // Doble clic en escritorio
-                    // onTouchStart={() => handleLongPressStart(word)} // Para móviles
-                    // onTouchEnd={handleLongPressEnd} // Para móviles
-                    >
-                      {/* {word} */}
-                      {item.text}
-                    </span>
 
-                  </div>
-                  {/* <button
+      <div className="container-subtitulo-y-traduccion">
+        {error && <p style={{ color: "red" }}>Ocurrio un error al intentar cargar los subtitulos</p>}
+        {loading && <p style={{ color: "red" }}>Cargando...</p>}
+        {transcript && <div className='caja-subtitles'
+          ref={originalBoxRef}
+          onScroll={() => syncScroll(originalBoxRef, translatedBoxRef)}
+        >
+          <ul className='ul-subtitles'>
+            {transcript.map((item, index) => (
+              <li
+                className='li-subtitles'
+                key={index}
+                id={`subtitle-${index}`}
+                onClick={() => handleSeek(item)}
+                style={{
+                  backgroundColor: index === currentSegmentIndex ? "#3b3b3b" : "transparent"
+                }}
+              >
+                <code className='time-subtitle'> {(item.start / 100).toFixed(2)}</code>
+                {/* {item.text.split(" ").map((word, wordIndex) => ( */}
+                <div className='text-wrapper'>
+                  <span
+                    className='text-subtitle'
+                  // key={`${index}-${wordIndex}`}
+                  // onMouseDown={() => handleLongPressStart(word)} // Para escritorio
+                  // onMouseUp={handleLongPressEnd} // Para escritorio
+                  // onDoubleClick={() => handleDoubleClick(word)} // Doble clic en escritorio
+                  // onTouchStart={() => handleLongPressStart(word)} // Para móviles
+                  // onTouchEnd={handleLongPressEnd} // Para móviles
+                  >
+                    {/* {word} */}
+                    {item.text}
+                  </span>
+
+                </div>
+                {/* <button
                           onClick={() => handleTranslate(item.text)}
                         >
                           t
                         </button> */}
 
-                  {/* ))} */}
-                </li>
+                {/* ))} */}
+              </li>
 
-              ))}
+            ))}
 
-            </ul>
-          </div>
+          </ul>
+        </div>}
 
-          {/* <div className="caja-traduccion"
+
+
+        {/* <div className="caja-traduccion"
               ref={translatedBoxRef}
               >
               <span className="texto-entero-traducido" >
                 {translatedText}
               </span>
             </div> */}
-        </div>}
+      </div>
 
       {modalVisible &&
         <ModalWord
