@@ -3,6 +3,7 @@ import YoutubePlayer from 'react-player/youtube';
 import { ModalWord } from './components/ModalWord/ModalWord';
 import { fetchSubtitles, getYouTubeVideoId, syncScroll } from './utils/utils';
 // import { spanishText, textInEnglish, subtitulesFromBack } from './fakeTranslation';
+import 'animate.css';
 
 
 function App () {
@@ -20,7 +21,7 @@ function App () {
   const [modalVisible, setModalVisible] = useState(false)
   const [wordToTranslate, setWordToTranslate] = useState(null)
 
-  const [played, setPlayed] = useState(0)
+  // const [played, setPlayed] = useState(0)
 
 
   const handleInputChange = (event) => {
@@ -38,7 +39,6 @@ function App () {
     if (!playing) {
       setModalVisible(true)
       setWordToTranslate(item.text)
-      console.log(subtitle)
       return
     }
     if (playerRef.current) {
@@ -75,27 +75,27 @@ function App () {
 
 
 
-  const longPressTimeout = useRef(null);
+  // const longPressTimeout = useRef(null);
 
 
   // Manejadores de eventos
-  const handleLongPressStart = (word) => {
-    if (playing) return
-    longPressTimeout.current = setTimeout(() => {
-      setModalVisible(true)
-      setWordToTranslate(word)
-    }, 1000); // 1 segundo
-  };
+  // const handleLongPressStart = (word) => {
+  //   if (playing) return
+  //   longPressTimeout.current = setTimeout(() => {
+  //     setModalVisible(true)
+  //     setWordToTranslate(word)
+  //   }, 1000); // 1 segundo
+  // };
 
-  const handleLongPressEnd = () => {
-    clearTimeout(longPressTimeout.current); // Cancela si el usuario suelta antes de tiempo
-  };
+  // const handleLongPressEnd = () => {
+  //   clearTimeout(longPressTimeout.current); // Cancela si el usuario suelta antes de tiempo
+  // };
 
-  const handleDoubleClick = (word) => {
-    if (playing) return
-    setModalVisible(true)
-    setWordToTranslate(word)
-  };
+  // const handleDoubleClick = (word) => {
+  //   if (playing) return
+  //   setModalVisible(true)
+  //   setWordToTranslate(word)
+  // };
 
 
   const handlePlayPause = () => {
@@ -115,22 +115,26 @@ function App () {
       {
         !transcript
         &&
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <h3>Reproductor de YouTube con Transcripción</h3>
-          <form onSubmit={handleSubmit} style={{ marginBottom: '50px' }}>
-            <input
-              type="text"
-              placeholder=""
-              value={link}
-              onChange={handleInputChange}
-              style={{ padding: '8px', marginRight: '10px' }}
-            />
-            <button type="submit" style={{ padding: '8px 16px' }}>Cargar Video</button>
-          </form>
+        <div className="wrapper-input animate__animated animate__zoomIn" >
+          <input
+            className='input'
+            type="text"
+            placeholder=""
+            value={link}
+            onChange={handleInputChange}
+          />
+          <button
+            type="submit"
+            className='button-submit'
+            onClick={handleSubmit}
+          >
+            Cargar Video
+          </button>
+          {/* </form> */}
         </div>}
 
       {transcript && (
-        <div className='containerVideoAndText'>
+        <div className='containerVideoAndText animate__animated animate__fadeIn'>
           <div
             className='video-wrapper'
           >
@@ -180,13 +184,13 @@ function App () {
                     {/* {item.text.split(" ").map((word, wordIndex) => ( */}
                     <div className='text-wrapper'>
                       <span
-                        // key={`${index}-${wordIndex}`}
                         className='text-subtitle'
-                        onMouseDown={() => handleLongPressStart(word)} // Para escritorio
-                        onMouseUp={handleLongPressEnd} // Para escritorio
-                        onDoubleClick={() => handleDoubleClick(word)} // Doble clic en escritorio
-                        onTouchStart={() => handleLongPressStart(word)} // Para móviles
-                        onTouchEnd={handleLongPressEnd} // Para móviles
+                      // key={`${index}-${wordIndex}`}
+                      // onMouseDown={() => handleLongPressStart(word)} // Para escritorio
+                      // onMouseUp={handleLongPressEnd} // Para escritorio
+                      // onDoubleClick={() => handleDoubleClick(word)} // Doble clic en escritorio
+                      // onTouchStart={() => handleLongPressStart(word)} // Para móviles
+                      // onTouchEnd={handleLongPressEnd} // Para móviles
                       >
                         {/* {word} */}
                         {item.text}

@@ -33,9 +33,6 @@ const fetchSubtitles = async (videoId, language = "en", setTranscript, setTransl
     if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
     const data = await response.json();
     const { subtitles, totalText, textTranslated } = data
-    console.log({ subtitles })
-    console.log({ totalText })
-    console.log({ textTranslated })
 
     // Normaliza los valores de start y dur en el transcript
     const normalizedSubtitles = subtitles.map((segment) => ({
@@ -46,8 +43,8 @@ const fetchSubtitles = async (videoId, language = "en", setTranscript, setTransl
     // Subtitulos normalizados
     setTranscript(normalizedSubtitles);
 
-    // Simulación de traducción (esto debería venir del backend)
-    setTranslatedText(textTranslated);
+    // Si viene la traduccion:
+    // setTranslatedText(textTranslated);
 
     // Texto original
     // console.log(totalTex)

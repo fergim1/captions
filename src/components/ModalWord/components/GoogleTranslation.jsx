@@ -12,7 +12,7 @@ export const GoogleTranslation = ({ word }) => {
     <div className="container-google-translation">
       {loading && <Loading />}
       {error && <Error error={error} />}
-      <h2>{word}</h2>
+      <h3>{word}</h3>
       <hr />
       <p>{data}</p>
     </div>
