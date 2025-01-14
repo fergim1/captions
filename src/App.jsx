@@ -4,10 +4,12 @@ import { ModalWord } from './components/ModalWord/ModalWord';
 import { fetchSubtitles, getYouTubeVideoId, syncScroll } from './utils/utils';
 // import { spanishText, textInEnglish, subtitulesFromBack } from './fakeTranslation';
 import 'animate.css';
+import { Input } from './components/ModalWord/components/Input';
+import { useEffect } from 'react';
 
 
 function App () {
-  const [link, setLink] = useState("");
+  // const [link, setLink] = useState("");
   const [videoId, setVideoId] = useState("");
   const [transcript, setTranscript] = useState(null);
   const [translatedText, setTranslatedText] = useState('');
@@ -21,19 +23,13 @@ function App () {
   const [modalVisible, setModalVisible] = useState(false)
   const [wordToTranslate, setWordToTranslate] = useState(null)
 
-  // const [played, setPlayed] = useState(0)
+  // const [played, setPlayed] = useState(0) 
 
 
-  const handleInputChange = (event) => {
-    setLink(event.target.value);
-  };
+  useEffect(() => {
+    fetchSubtitles(videoId, 'en', setTranscript, setTranslatedText);
+  }, [videoId])
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const videoIdFromLink = getYouTubeVideoId(link)
-    setVideoId(videoIdFromLink)
-    fetchSubtitles(videoIdFromLink, 'en', setTranscript, setTranslatedText);
-  };
 
   const handleSeek = (item) => {
     if (!playing) {
@@ -112,124 +108,101 @@ function App () {
 
   return (
     <div className="App">
-      {
-        !transcript
-        &&
-        <div className="wrapper-input animate__animated animate__zoomIn" >
-          <input
-            className='input'
-            type="text"
-            placeholder=""
-            value={link}
-            onChange={handleInputChange}
-          />
-          <button
-            type="submit"
-            className='button-submit'
-            onClick={handleSubmit}
-          >
-            Cargar Video
-          </button>
-          {/* </form> */}
-        </div>}
 
-      {transcript && (
-        <div className='containerVideoAndText animate__animated animate__fadeIn'>
-          <div
-            className='video-wrapper'
-          >
-            <div className='player-wrapper'>
-              <YoutubePlayer
-                className="react-player"
-                ref={playerRef}
-                url={`https://www.youtube.com/watch?v=${videoId}`}
-                playing={playing}
-                onStart={() => setPlaying(true)}
-                controls={false}
-                onProgress={handleProgress}
-                progressInterval={200}
-                onSeek={e => console.log('onSeek', e)}
-                width='100%'
-                height='100%'
-              />
+      {!videoId && <Input setVideoId={setVideoId} />}
 
-            </div>
-            <div className='react-player-controls'>
-              <button
-                className='control-stop-play'
-                onClick={handlePlayPause}
-              >
-                {playing ? "Stop" : "Play"}
-              </button>
-
-            </div>
+      {videoId &&
+        <div className='wrapper-video-and-controls' >
+          <div className='player-wrapper'>
+            <YoutubePlayer
+              className="react-player"
+              ref={playerRef}
+              url={`https://www.youtube.com/watch?v=${videoId}`}
+              playing={playing}
+              onStart={() => setPlaying(true)}
+              controls={false}
+              onProgress={handleProgress}
+              progressInterval={200}
+              onSeek={e => console.log('onSeek', e)}
+              width='100%'
+              height='100%'
+            />
           </div>
-          <div className="container-subtitulo-y-traduccion">
-            <div className='caja-subtitles'
-              ref={originalBoxRef}
-              onScroll={() => syncScroll(originalBoxRef, translatedBoxRef)}
+          <div className='react-player-controls'>
+            <button
+              className='control-stop-play'
+              onClick={handlePlayPause}
             >
-              <ul className='ul-subtitles'>
-                {transcript.map((item, index) => (
-                  <li
-                    className='li-subtitles'
-                    key={index}
-                    id={`subtitle-${index}`}
-                    onClick={() => handleSeek(item)}
-                    style={{
-                      backgroundColor: index === currentSegmentIndex ? "#3b3b3b" : "transparent"
-                    }}
-                  >
-                    <code className='time-subtitle'> {(item.start / 100).toFixed(2)}</code>
-                    {/* {item.text.split(" ").map((word, wordIndex) => ( */}
-                    <div className='text-wrapper'>
-                      <span
-                        className='text-subtitle'
-                      // key={`${index}-${wordIndex}`}
-                      // onMouseDown={() => handleLongPressStart(word)} // Para escritorio
-                      // onMouseUp={handleLongPressEnd} // Para escritorio
-                      // onDoubleClick={() => handleDoubleClick(word)} // Doble clic en escritorio
-                      // onTouchStart={() => handleLongPressStart(word)} // Para móviles
-                      // onTouchEnd={handleLongPressEnd} // Para móviles
-                      >
-                        {/* {word} */}
-                        {item.text}
-                      </span>
+              {playing ? "Stop" : "Play"}
+            </button>
 
-                    </div>
-                    {/* <button
-                      onClick={() => handleTranslate(item.text)}
+          </div>
+        </div>}
+      {transcript &&
+        <div className="container-subtitulo-y-traduccion">
+          <div className='caja-subtitles'
+            ref={originalBoxRef}
+            onScroll={() => syncScroll(originalBoxRef, translatedBoxRef)}
+          >
+            <ul className='ul-subtitles'>
+              {transcript.map((item, index) => (
+                <li
+                  className='li-subtitles'
+                  key={index}
+                  id={`subtitle-${index}`}
+                  onClick={() => handleSeek(item)}
+                  style={{
+                    backgroundColor: index === currentSegmentIndex ? "#3b3b3b" : "transparent"
+                  }}
+                >
+                  <code className='time-subtitle'> {(item.start / 100).toFixed(2)}</code>
+                  {/* {item.text.split(" ").map((word, wordIndex) => ( */}
+                  <div className='text-wrapper'>
+                    <span
+                      className='text-subtitle'
+                    // key={`${index}-${wordIndex}`}
+                    // onMouseDown={() => handleLongPressStart(word)} // Para escritorio
+                    // onMouseUp={handleLongPressEnd} // Para escritorio
+                    // onDoubleClick={() => handleDoubleClick(word)} // Doble clic en escritorio
+                    // onTouchStart={() => handleLongPressStart(word)} // Para móviles
+                    // onTouchEnd={handleLongPressEnd} // Para móviles
                     >
-                      t
-                    </button> */}
+                      {/* {word} */}
+                      {item.text}
+                    </span>
 
-                    {/* ))} */}
-                  </li>
+                  </div>
+                  {/* <button
+                          onClick={() => handleTranslate(item.text)}
+                        >
+                          t
+                        </button> */}
 
-                ))}
+                  {/* ))} */}
+                </li>
 
-              </ul>
-            </div>
+              ))}
 
-            {/* <div className="caja-traduccion"
+            </ul>
+          </div>
+
+          {/* <div className="caja-traduccion"
               ref={translatedBoxRef}
               >
               <span className="texto-entero-traducido" >
                 {translatedText}
               </span>
             </div> */}
-          </div>
+        </div>}
 
-          {modalVisible &&
-            <ModalWord
-              word={wordToTranslate}
-              setModalVisible={setModalVisible}
-            />
-          }
-        </div>
-      )
+      {modalVisible &&
+        <ModalWord
+          word={wordToTranslate}
+          setModalVisible={setModalVisible}
+        />
       }
-    </div >
+    </div>
+
   );
 }
 
