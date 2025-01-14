@@ -29,7 +29,7 @@ body {
 }
 
 .containerVideoAndText {
-  padding: 6px;
+  /* padding: 6px; */
   /*   background-color: pink; */
   display: flex;
   flex-direction: column;
@@ -59,6 +59,19 @@ body {
   left: 0;
 }
 
+.react-player-controls {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.control-stop-play {
+  height: 30px;
+  width: 50px;
+  margin-right: 20px;
+  background: wheat;
+  border: none;
+  border-radius: 4px;
+}
 
 .container-subtitulo-y-traduccion {
   display: flex;
@@ -71,7 +84,8 @@ body {
 
 .caja-subtitles {
   overflow-y: auto;
-  height: calc(50% - 10px);
+  /* height: calc(50% - 10px); // Para cuando quiero la traducicon debajo  */
+  height: 100%;
   width: 100%;
   /* border: 2px solid green; */
   background: black;
@@ -85,25 +99,31 @@ body {
 .li-subtitles {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
-  /* gap: 20px; */
+  margin-top: 10px;
   cursor: pointer;
 
   /*   background-color: index===currentSegmentIndex ?  yellow :  transparent ;*/
 }
 
 .time-subtitle {
-  font-size: 1rem;
+  font-size: 14px;
   line-height: 1.75rem;
   color: white;
   opacity: 40%;
-  padding-right: 20px;
+  padding-right: 14px;
 
 }
 
+.text-wrapper {
+  display: flex;
+  width: 100%;
+}
+
 .text-subtitle {
-  font-size: 1rem;
+  justify-content: flex-start;
+  font-size: 16px;
   line-height: 1.75rem;
   font-weight: 200;
   color: white;
@@ -151,8 +171,11 @@ body {
 .modal-word {
   width: 100%;
   /* height: 40vh; */
-  height: 20vh;
-  background-color: white;
+  /* height: 20vh; */
+  height: auto;
+  /* padding-top: 20px;
+  padding-bottom: 20px; */
+  background-color: rgb(80, 80, 80);
   color: black;
   position: fixed;
   bottom: 0;
@@ -166,7 +189,29 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 10px;
+  padding: 20px;
+}
+
+.modal-button-close-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.modal-button-close {
+  background: rgb(80, 80, 80);
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.container-google-translation {
+  color: wheat;
+}
+
+.container-google-translation p {
+  font-size: 20px;
+  color: white
 }
 
 .modal-pronunciations {

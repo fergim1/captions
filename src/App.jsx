@@ -34,10 +34,15 @@ function App () {
     fetchSubtitles(videoIdFromLink, 'en', setTranscript, setTranslatedText);
   };
 
-  const handleSeek = (timestamp) => {
-    if (!playing) return
+  const handleSeek = (item) => {
+    if (!playing) {
+      setModalVisible(true)
+      setWordToTranslate(item.text)
+      console.log(subtitle)
+      return
+    }
     if (playerRef.current) {
-      playerRef.current.seekTo(timestamp, 'seconds');
+      playerRef.current.seekTo(item.start, 'seconds');
       setPlaying(true);
     }
   };
@@ -96,6 +101,12 @@ function App () {
   const handlePlayPause = () => {
     setPlaying(prev => !prev)
   }
+  // const handleTranslate = (subtitle) => {
+  //   setModalVisible(true)
+  //   setWordToTranslate(subtitle)
+  //   console.log(subtitle)
+  // }
+
 
   ///// TODO: agregar y controlar barra de progreso del video ////////////
 
@@ -141,6 +152,7 @@ function App () {
             </div>
             <div className='react-player-controls'>
               <button
+                className='control-stop-play'
                 onClick={handlePlayPause}
               >
                 {playing ? "Stop" : "Play"}
@@ -159,15 +171,16 @@ function App () {
                     className='li-subtitles'
                     key={index}
                     id={`subtitle-${index}`}
-                    onClick={() => handleSeek(item.start)}
+                    onClick={() => handleSeek(item)}
                     style={{
                       backgroundColor: index === currentSegmentIndex ? "#3b3b3b" : "transparent"
                     }}
                   >
                     <code className='time-subtitle'> {(item.start / 100).toFixed(2)}</code>
-                    {item.text.split(" ").map((word, wordIndex) => (
+                    {/* {item.text.split(" ").map((word, wordIndex) => ( */}
+                    <div className='text-wrapper'>
                       <span
-                        key={`${index}-${wordIndex}`}
+                        // key={`${index}-${wordIndex}`}
                         className='text-subtitle'
                         onMouseDown={() => handleLongPressStart(word)} // Para escritorio
                         onMouseUp={handleLongPressEnd} // Para escritorio
@@ -175,9 +188,18 @@ function App () {
                         onTouchStart={() => handleLongPressStart(word)} // Para móviles
                         onTouchEnd={handleLongPressEnd} // Para móviles
                       >
-                        {word}
+                        {/* {word} */}
+                        {item.text}
                       </span>
-                    ))}
+
+                    </div>
+                    {/* <button
+                      onClick={() => handleTranslate(item.text)}
+                    >
+                      t
+                    </button> */}
+
+                    {/* ))} */}
                   </li>
 
                 ))}
@@ -185,14 +207,13 @@ function App () {
               </ul>
             </div>
 
-            <div className="caja-traduccion"
+            {/* <div className="caja-traduccion"
               ref={translatedBoxRef}
-/*               onScroll={() => syncScroll(translatedBoxRef, originalBoxRef)}
- */            >
+              >
               <span className="texto-entero-traducido" >
                 {translatedText}
               </span>
-            </div>
+            </div> */}
           </div>
 
           {modalVisible &&

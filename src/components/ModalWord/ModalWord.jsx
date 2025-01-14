@@ -10,7 +10,9 @@ export const ModalWord = ({ word, setModalVisible }) => {
 
   return (
     <div className="modal-word">
-      <button className="modal-button-cerrar" onClick={() => setModalVisible(false)}>X</button>
+      <div className="modal-button-close-wrapper">
+        <button className="modal-button-close" onClick={() => setModalVisible(false)}>X</button>
+      </div>
       <GoogleTranslation word={word} />
       {/* <OxfordDefinitions word="ace"  /> */}
 
