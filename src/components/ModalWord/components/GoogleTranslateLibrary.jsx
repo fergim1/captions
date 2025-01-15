@@ -24,6 +24,7 @@ const GoogleTranslateLibrary = ({ word }) => {
 
   // Traducción automática cuando se pasa un nuevo "word"
   const translateText = async (text, targetLanguage) => {
+
     try {
       const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(
         text
@@ -57,11 +58,11 @@ const GoogleTranslateLibrary = ({ word }) => {
   return (
     <div>
       <div className="container-google-translation">
-        <h3>{word}"</h3>
+        <h3>{word}</h3>
         <hr />
         {loading && <p style={{ color: "red" }}>Cargando...</p>}
         {error && <p style={{ color: "red" }}>Ocurrio un error al intentar cargar los subtitulos</p>}
-        {translatedText && <p>{translatedText}"</p>}
+        {translatedText && <p>{translatedText}</p>}
       </div>
     </div>
   );
