@@ -150,7 +150,7 @@ function App () {
           </div>
         </div>}
 
-      <div className="container-subtitulo-y-traduccion">
+      {videoId && <div className="container-subtitulo-y-traduccion">
         {error && <p style={{ color: "red" }}>Ocurrio un error al intentar cargar los subtitulos</p>}
         {loading && <p style={{ color: "red" }}>Cargando...</p>}
         {transcript && <div className='caja-subtitles'
@@ -208,7 +208,7 @@ function App () {
                 {translatedText}
               </span>
             </div> */}
-      </div>
+      </div>}
 
       {modalVisible &&
         <ModalWord
