@@ -24,7 +24,7 @@ function getYouTubeVideoId (url) {
   }
 }
 
-const fetchSubtitles = async (videoId, language = "en", setTranscript, setTranslatedText) => {
+const fetchSubtitles = async (videoId, language = "en", setTranscript) => {
   if (!videoId) return;
 
 
@@ -43,8 +43,6 @@ const fetchSubtitles = async (videoId, language = "en", setTranscript, setTransl
     // Subtitulos normalizados
     setTranscript(normalizedSubtitles);
 
-    // Si viene la traduccion:
-    // setTranslatedText(textTranslated);
 
     // Texto original
     // console.log(totalTex)
@@ -55,19 +53,9 @@ const fetchSubtitles = async (videoId, language = "en", setTranscript, setTransl
 };
 
 
-const syncScroll = (sourceRef, targetRef) => {
-  const source = sourceRef.current;
-  const target = targetRef.current;
-  if (source && target) {
-    const scrollRatio = source.scrollTop / (source.scrollHeight - source.clientHeight);
-    target.scrollTop = scrollRatio * (target.scrollHeight - target.clientHeight);
-  }
-};
-
 
 
 export {
   getYouTubeVideoId,
   fetchSubtitles,
-  syncScroll
 }

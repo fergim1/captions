@@ -14,7 +14,7 @@ body {
 
 .App {
   width: 100vw;
-  height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +28,7 @@ body {
   display: flex;
   gap: 10px;
   width: 100%;
-  height: 100%;
+  height: 90vh;
   flex-direction: column;
   align-items: center;
   border: 1px solid red;
@@ -55,14 +55,6 @@ body {
   font-size: 16px;
 }
 
-/* .containerVideoAndText {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-  height: 100%;
-  gap: 10px;
-} */
 
 .wrapper-video-and-controls {
   border: 2px solid red;
@@ -74,6 +66,8 @@ body {
   gap: 10px;
   margin: 0;
   padding: 0;
+  position: relative;
+  top: 0px;
 }
 
 .player-wrapper {
@@ -106,7 +100,7 @@ body {
   color: black;
 }
 
-.container-subtitulo-y-traduccion {
+.wrapper-subtitles {
   display: flex;
   flex-direction: column;
   border: 2px solid blue;
@@ -118,7 +112,7 @@ body {
 .caja-subtitles {
   overflow-y: auto;
   /* height: calc(50% - 10px); // Para cuando quiero la traducicon debajo  */
-  height: 100%;
+  height: 400px;
   width: 100%;
   /* border: 2px solid green; */
   background: black;
