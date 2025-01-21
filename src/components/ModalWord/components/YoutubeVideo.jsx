@@ -1,4 +1,5 @@
 import YoutubePlayer from 'react-player/youtube';
+import { Link } from "react-router";
 
 
 export const YouTubeVideo = ({
@@ -39,6 +40,10 @@ export const YouTubeVideo = ({
     }
   };
 
+  const handleGoToTranslations = () => {
+    console.log("handleGoToTranslations")
+  }
+
 
   return (
     <div className='wrapper-video-and-controls' >
@@ -58,6 +63,14 @@ export const YouTubeVideo = ({
         />
       </div>
       <div className='react-player-controls'>
+
+        <Link
+          to="/translations"
+          className='link-go-to-translations'
+          onClick={handleGoToTranslations}
+        >
+          Translations
+        </Link>
         <button
           className='control-stop-play'
           onClick={handlePlayPause}

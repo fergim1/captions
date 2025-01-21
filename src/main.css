@@ -86,7 +86,7 @@ body {
 
 .react-player-controls {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   padding: 10px 20px 10px 10px;
 }
 
@@ -98,6 +98,17 @@ body {
   border: none;
   border-radius: 4px;
   color: black;
+}
+
+.link-go-to-translations {
+  height: 30px;
+  width: 90px;
+  margin-right: 20px;
+  background: wheat;
+  border: none;
+  border-radius: 4px;
+  color: black;
+  text-decoration: none;
 }
 
 .wrapper-subtitles {
@@ -197,47 +208,41 @@ body {
 
 .modal-word {
   width: 100%;
-  /* height: 40vh; */
-  /* height: 20vh; */
   height: auto;
-  /* padding-top: 20px;
-  padding-bottom: 20px; */
   background-color: rgb(80, 80, 80);
-  color: black;
   position: fixed;
   bottom: 0;
   z-index: 100;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   /* border: 2px solid red; */
-  /* box-shadow: */
-  transition: bottom 0.5s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 20px;
+  padding: 6px 12px 8px 12px;
 }
 
 .modal-button-close-wrapper {
   display: flex;
   width: 100%;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .modal-button-close {
   background: rgb(80, 80, 80);
   border: none;
   color: #ffffff;
-  font-size: 20px;
+  font-size: 12px;
 }
 
 .container-google-translation {
   color: wheat;
+  width: 100%;
 }
 
 .container-google-translation p {
-  font-size: 18px;
+  font-size: 16px;
   color: white
 }
 
@@ -259,4 +264,80 @@ body {
 .subtitles-error {
   color: red;
   text-align: center;
+}
+
+.wrapper-text-translated {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-button-save-item {
+  width: 30px;
+  border-radius: 6px;
+  margin-left: 8px;
+  box-shadow: none;
+  font-size: 16px;
+  border: none;
+  background: #424040;
+  color: #b9b9b9;
+}
+
+.page-wrapper-translations {
+  width: 100%;
+  height: auto;
+  color: white;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.wrapper-accordion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
+  min-height: 60px;
+  background-color: rgb(80, 80, 80);
+  margin-bottom: 12px;
+  border-radius: 12px;
+  padding-left: 12px;
+}
+
+.wrapper-text-original {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-right: 12px;
+}
+
+.accordion-text-original {
+  color: wheat;
+  font-size: 18px;
+  width: 100%;
+  margin: 12px 0px;
+}
+
+.button-delete-item {
+  width: 30px;
+  border-radius: 6px;
+  margin-left: 8px;
+  box-shadow: none;
+  font-size: 16px;
+  border: none;
+  background: #424040;
+  color: #b9b9b9;
+}
+
+.accordion-text-translated {
+  font-size: 16px;
+  color: white
 }
