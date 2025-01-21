@@ -5,6 +5,7 @@ import 'animate.css';
 import { Input } from './components/ModalWord/components/Input';
 import { YouTubeVideo } from './components/ModalWord/components/YoutubeVideo';
 import { Subtitles } from './components/ModalWord/components/Subtitles';
+import { useEffect } from 'react';
 
 
 function App () {
@@ -12,6 +13,7 @@ function App () {
   const [transcript, setTranscript] = useState(null);
   const [playing, setPlaying] = useState(false);
   const [currentSegmentIndex, setCurrentSegmentIndex] = useState(null);
+  const [durationOfVideo, setDurationOfVideo] = useState(null)
 
   const playerRef = useRef(null);
 
@@ -31,6 +33,20 @@ function App () {
     }
   };
 
+  useEffect(() => {
+    const videoIdFromLocalStorage = localStorage.getItem('videoId');
+    const durationOfVideoFromLocalStorage = localStorage.getItem('durationOfVideo');
+    if (videoIdFromLocalStorage) {
+      setVideoId(JSON.parse(videoIdFromLocalStorage));
+      console.log('videoId cargado desde localStorage');
+    }
+    if (durationOfVideoFromLocalStorage) {
+      setDurationOfVideo(JSON.parse(durationOfVideoFromLocalStorage));
+      console.log('durationOfVideoFromLocalStorage cargado desde localStorage');
+    }
+
+  }, [])
+
 
   ///// TODO: agregar y controlar barra de progreso del video ////////////
 
@@ -48,6 +64,7 @@ function App () {
           setPlaying={setPlaying}
           currentSegmentIndex={currentSegmentIndex}
           setCurrentSegmentIndex={setCurrentSegmentIndex}
+          durationOfVideo={durationOfVideo}
         />
       }
 
@@ -58,6 +75,7 @@ function App () {
           setTranscript={setTranscript}
           handleSeek={handleSeek}
           currentSegmentIndex={currentSegmentIndex}
+          setDurationOfVideo={setDurationOfVideo}
         />
 
       }

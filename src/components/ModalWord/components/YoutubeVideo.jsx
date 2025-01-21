@@ -9,7 +9,8 @@ export const YouTubeVideo = ({
   playing,
   setPlaying,
   currentSegmentIndex,
-  setCurrentSegmentIndex
+  setCurrentSegmentIndex,
+  durationOfVideo
 }) => {
 
   const handlePlayPause = () => {
@@ -40,8 +41,9 @@ export const YouTubeVideo = ({
     }
   };
 
-  const handleGoToTranslations = () => {
-    console.log("handleGoToTranslations")
+  const handleDeleteCache = () => {
+    localStorage.clear()
+    console.log("cache borrado")
   }
 
 
@@ -63,20 +65,28 @@ export const YouTubeVideo = ({
         />
       </div>
       <div className='react-player-controls'>
-
+        <button
+          className='button-home'
+          onClick={handleDeleteCache}
+        >
+          home
+        </button>
         <Link
           to="/translations"
           className='link-go-to-translations'
-          onClick={handleGoToTranslations}
         >
           Translations
         </Link>
+
         <button
           className='control-stop-play'
           onClick={handlePlayPause}
         >
           {playing ? "Stop" : "Play"}
         </button>
+
+        {durationOfVideo && <p className='durationOfVideo'>{durationOfVideo}</p>}
+
 
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchSubtitles } from "../../../utils/utils";
 
-export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, currentSegmentIndex }) => {
+export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, setDurationOfVideo }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -10,18 +10,26 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
 
 
   useEffect(() => {
-    try {
-      setLoading(true)
-      setError(null)
-      fetchSubtitles(videoId, 'en', setTranscript);
+    const subtitlesFromLocalStorage = localStorage.getItem('dataSubtitles');
+    if (subtitlesFromLocalStorage) {
+      // Si hay datos en localStorage, los cargamos al estado
+      setTranscript(JSON.parse(subtitlesFromLocalStorage));
     }
-    catch (error) {
-      setError(true)
-      console.log(error)
+    else {
 
-    }
-    finally {
-      setLoading(false)
+      try {
+        setLoading(true)
+        setError(null)
+        fetchSubtitles(videoId, 'en', setTranscript, setDurationOfVideo);
+      }
+      catch (error) {
+        setError(true)
+        console.log(error)
+
+      }
+      finally {
+        setLoading(false)
+      }
     }
 
   }, [videoId])

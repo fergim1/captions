@@ -12,8 +12,8 @@ export const Input = ({ setVideoId }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const videoIdFromLink = getYouTubeVideoId(link)
+    localStorage.setItem('videoId', JSON.stringify(videoIdFromLink));
     setVideoId(videoIdFromLink)
-    // fetchSubtitles(videoIdFromLink, 'en', setTranscript, setTranslatedText);
   };
 
 

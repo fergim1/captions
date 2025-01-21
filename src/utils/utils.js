@@ -24,7 +24,7 @@ function getYouTubeVideoId (url) {
   }
 }
 
-const fetchSubtitles = async (videoId, language = "en", setTranscript) => {
+const fetchSubtitles = async (videoId, language = "en", setTranscript, setDurationOfVideo) => {
   if (!videoId) return;
 
 
@@ -32,7 +32,7 @@ const fetchSubtitles = async (videoId, language = "en", setTranscript) => {
     const response = await fetch(`${url_server}/api/transcript?videoId=${videoId}`);
     if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
     const data = await response.json();
-    const { subtitles, totalText, textTranslated } = data
+    const { subtitles, totalText, textTranslated, durationOfVideo } = data
 
     // Normaliza los valores de start y dur en el transcript
     const normalizedSubtitles = subtitles.map((segment) => ({
@@ -42,6 +42,10 @@ const fetchSubtitles = async (videoId, language = "en", setTranscript) => {
     }));
     // Subtitulos normalizados
     setTranscript(normalizedSubtitles);
+    setDurationOfVideo(durationOfVideo)
+    localStorage.setItem('dataSubtitles', JSON.stringify(normalizedSubtitles));
+    localStorage.setItem('durationOfVideo', JSON.stringify(durationOfVideo));
+
 
 
     // Texto original
