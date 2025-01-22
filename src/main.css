@@ -359,4 +359,8 @@ body {
   border: 1px solid wheat;
   border-radius: 4px;
   background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
 }

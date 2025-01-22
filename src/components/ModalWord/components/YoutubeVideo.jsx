@@ -13,6 +13,7 @@ export const YouTubeVideo = ({
   durationOfVideo
 }) => {
 
+
   const handlePlayPause = () => {
     setPlaying(prev => !prev)
   }
@@ -40,9 +41,9 @@ export const YouTubeVideo = ({
       }
     }
   };
-
   const handleDeleteCache = () => {
     localStorage.clear()
+    window.location.reload()
     console.log("cache borrado")
   }
 
@@ -71,6 +72,7 @@ export const YouTubeVideo = ({
         >
           home
         </button>
+
         <Link
           to="/translations"
           className='link-go-to-translations'
