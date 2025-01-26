@@ -1,7 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchSubtitles } from "../../../utils/utils";
 
-export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, setDurationOfVideo }) => {
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+export const Subtitles = ({ setModalVisible, modalVisible, videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, setDurationOfVideo }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -45,6 +57,7 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
       {transcript && <div className='caja-subtitles'
         ref={originalBoxRef}
       >
+
         <ul className='ul-subtitles'>
           {transcript.map((item, index) => (
             <li
@@ -53,7 +66,7 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
               id={`subtitle-${index}`}
               onClick={() => handleSeek(item)}
               style={{
-                backgroundColor: index === currentSegmentIndex ? "#3b3b3b" : "transparent"
+                backgroundColor: index === currentSegmentIndex ? "rgb(37 37 37)" : "transparent"
               }}
             >
               <code className='time-subtitle'> {(item.start / 100).toFixed(2)}</code>
@@ -67,12 +80,11 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
 
               </div>
             </li>
-
           ))}
-
         </ul>
+
       </div>}
 
-    </div>
+    </div >
   )
 }

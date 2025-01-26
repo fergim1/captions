@@ -6,8 +6,8 @@ const saveTranslation = async (payload) => {
   try {
     const docRef = await addDoc(collection(db, "translations"), payload);
     console.log("Document written with ID: ", docRef.id);
+    return docRef.id
   } catch (e) {
-    console.log("entra acaaaaaaaa")
     console.error("Error adding document: ", e);
   }
 };

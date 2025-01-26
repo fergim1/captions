@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { ModalWord } from './components/ModalWord/ModalWord';
 // import { spanishText, textInEnglish, subtitulesFromBack } from './fakeTranslation';
 import 'animate.css';
-import { Input } from './components/ModalWord/components/Input';
+import { InputSection } from './components/ModalWord/components/InputSection';
 import { YouTubeVideo } from './components/ModalWord/components/YoutubeVideo';
 import { Subtitles } from './components/ModalWord/components/Subtitles';
 import { useEffect } from 'react';
@@ -37,8 +37,13 @@ function App () {
     const videoIdFromLocalStorage = localStorage.getItem('videoId');
     const durationOfVideoFromLocalStorage = localStorage.getItem('durationOfVideo');
     if (videoIdFromLocalStorage) {
-      setVideoId(JSON.parse(videoIdFromLocalStorage));
-      console.log('videoId cargado desde localStorage');
+      try {
+        const parsedData = JSON.parse(videoIdFromLocalStorage)
+        setVideoId(parsedData);
+        console.log('videoId cargado desde localStorage');
+      } catch (error) {
+        console.error("No se puede parsear el valor, ya que no es un string válido");
+      }
     }
     if (durationOfVideoFromLocalStorage) {
       setDurationOfVideo(JSON.parse(durationOfVideoFromLocalStorage));
@@ -53,7 +58,7 @@ function App () {
   return (
     <div className="App">
 
-      {!videoId && <Input setVideoId={setVideoId} />}
+      {!videoId && <InputSection setVideoId={setVideoId} />}
 
       {videoId &&
         < YouTubeVideo
@@ -76,6 +81,8 @@ function App () {
           handleSeek={handleSeek}
           currentSegmentIndex={currentSegmentIndex}
           setDurationOfVideo={setDurationOfVideo}
+          setModalVisible={setModalVisible}
+          modalVisible={modalVisible}
         />
 
       }

@@ -1,5 +1,7 @@
 import YoutubePlayer from 'react-player/youtube';
 import { Link } from "react-router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStop, faPlay } from "@fortawesome/free-solid-svg-icons";
 
 
 export const YouTubeVideo = ({
@@ -84,7 +86,7 @@ export const YouTubeVideo = ({
           className='control-stop-play'
           onClick={handlePlayPause}
         >
-          {playing ? "Stop" : "Play"}
+          {playing ? <FontAwesomeIcon icon={faStop} /> : <FontAwesomeIcon icon={faPlay} />}
         </button>
 
         {durationOfVideo && <p className='durationOfVideo'>{durationOfVideo}</p>}

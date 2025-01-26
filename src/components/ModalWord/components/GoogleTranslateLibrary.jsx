@@ -1,11 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { saveTranslation } from '../utils/crud-firefox';
+import { saveTranslation, deleteTranslation } from '../utils/crud-firefox';
 import { extractSpanishText } from '../utils/extractSpanishText';
 
-const GoogleTranslateLibrary = ({ word }) => {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMinus } from "@fortawesome/free-solid-svg-icons";
+
+
+import { useToast } from "@/hooks/use-toast"
+import { Button } from "@/components/ui/button"
+import { ToastAction } from "@/components/ui/toast"
+import { Separator } from "@/components/ui/separator"
+
+
+
+const GoogleTranslateLibrary = ({ word, setModalVisible }) => {
   const [translatedText, setTranslatedText] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  const { toast } = useToast()
+
 
   useEffect(() => {
     // Carga dinámica del script de Google Translate
@@ -70,26 +84,43 @@ const GoogleTranslateLibrary = ({ word }) => {
       language: "es",
       createdAt: new Date()
     }
+    console.log(payload)
     saveTranslation(payload)
+    toast({
+      title: "Traducción guardada",
+      // description: "Para deshacerlo haz click en el boton",
+      action:
+        <ToastAction
+          altText="Cerrar"
+        // onClick={()=>handleDeletItem()}
+        >
+          Cerrar
+        </ToastAction>,
+    })
   }
 
+
   return (
-    <div className="container-google-translation">
-      <h4>{word}</h4>
-      <hr />
-      {loading && <p style={{ color: "red" }}>Cargando...</p>}
-      {error && <p style={{ color: "red" }}>Ocurrio un error al intentar cargar los subtitulos</p>}
-      {translatedText &&
-        <div className='wrapper-text-translated'>
-          <p>{translatedText}</p>
-          <button
-            className='modal-button-save-item'
-            onClick={handleSaveItem}
-          >
-            +
-          </button>
-        </div>
-      }
+    <div className="container-google-translation animate__animated animate__slideInUp">
+      <div className="modal-button-close-wrapper mb-3">
+        <FontAwesomeIcon style={{ color: "#3d3d3d", }} icon={faMinus} size={"2xl"} onClick={() => setModalVisible(false)} />
+      </div>
+      <div className='flex flex-col item-center justify-start p-3 gap-4'>
+        <p className="text-lg font-medium leading-none">{word}</p>
+        <Separator />
+        {loading && <p style={{ color: "red" }}>Cargando...</p>}
+        {error && <p style={{ color: "red" }}>Ocurrio un error al intentar cargar los subtitulos</p>}
+        {translatedText &&
+          <p className='text-lg text-muted-foreground'>{translatedText}</p>
+        }
+        <Button
+          className="mt-4 mb-4"
+          variant="outline"
+          onClick={handleSaveItem}
+        >
+          Guardar
+        </Button>
+      </div>
     </div>
   );
 };
