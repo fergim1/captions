@@ -22,6 +22,7 @@ function App () {
 
 
   const handleSeek = (item) => {
+    console.log(item)
     if (!playing) {
       setModalVisible(true)
       setWordToTranslate(item.text)

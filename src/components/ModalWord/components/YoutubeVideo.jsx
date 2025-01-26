@@ -1,7 +1,7 @@
 import YoutubePlayer from 'react-player/youtube';
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStop, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faStop, faPlay, faHome, faLanguage } from "@fortawesome/free-solid-svg-icons";
 
 
 export const YouTubeVideo = ({
@@ -16,9 +16,14 @@ export const YouTubeVideo = ({
 }) => {
 
 
+  let navigate = useNavigate();
+
   const handlePlayPause = () => {
     setPlaying(prev => !prev)
+    let segment = transcript[currentSegmentIndex]
+    localStorage.setItem('currentSegment', JSON.stringify(segment));
   }
+
 
   const handleProgress = (state) => {
     if (!transcript) return
@@ -34,6 +39,11 @@ export const YouTubeVideo = ({
 
       if (currentSegment !== currentSegmentIndex && currentSegment !== -1) {
         setCurrentSegmentIndex(currentSegment);
+
+        let segment = localStorage.getItem('currentSegment');
+        console.log(segment)
+
+
         // Desplaza el subtítulo actual al centro de la caja de subtítulos originales
         const subtitleElement = document.getElementById(`subtitle-${currentSegment}`);
         if (subtitleElement) {
@@ -44,11 +54,16 @@ export const YouTubeVideo = ({
     }
   };
   const handleDeleteCache = () => {
+    if (playing) return
     localStorage.clear()
     window.location.reload()
     console.log("cache borrado")
   }
 
+  const handleGoToTranslations = () => {
+    if (playing) return
+    navigate("/translations")
+  }
 
   return (
     <div className='wrapper-video-and-controls' >
@@ -65,22 +80,26 @@ export const YouTubeVideo = ({
           onSeek={e => console.log('onSeek', e)}
           width='100%'
           height='100%'
+          onDuration={(e) => console.log("Duracion del video en segundos", e)}
         />
       </div>
       <div className='react-player-controls'>
         <button
-          className='button-home'
+          // className='button-home'
           onClick={handleDeleteCache}
+          className={playing ? "text-[#8888]" : "text-white"}
         >
-          home
+          <FontAwesomeIcon icon={faHome} />
         </button>
 
-        <Link
-          to="/translations"
-          className='link-go-to-translations'
+        <button
+          onClick={handleGoToTranslations}
+          // to="/translations"
+          className={playing ? "text-[#8888]" : "text-white"}
+        // className='link-go-to-translations'
         >
-          Translations
-        </Link>
+          <FontAwesomeIcon icon={faLanguage} />
+        </button>
 
         <button
           className='control-stop-play'
