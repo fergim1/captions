@@ -6,6 +6,7 @@ import { InputSection } from './components/ModalWord/components/InputSection';
 import { YouTubeVideo } from './components/ModalWord/components/YoutubeVideo';
 import { Subtitles } from './components/ModalWord/components/Subtitles';
 import { useEffect } from 'react';
+import { formatTime } from './utils/utils';
 
 
 function App () {
@@ -34,9 +35,30 @@ function App () {
     }
   };
 
+
+  const [currentTime, setCurrentTime] = useState(0); // Tiempo reproducido
+  const [duration, setDuration] = useState(0); // Duración total
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (playerRef.current) {
+        let currentTime = playerRef.current.getCurrentTime()
+        let currentTimeFormated = formatTime(currentTime)
+        setCurrentTime(currentTimeFormated);
+        let duration = playerRef.current.getDuration()
+        let durationFormated = formatTime(duration)
+        setDuration(durationFormated);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
   useEffect(() => {
     const videoIdFromLocalStorage = localStorage.getItem('videoId');
-    const durationOfVideoFromLocalStorage = localStorage.getItem('durationOfVideo');
+    // const durationOfVideoFromLocalStorage = localStorage.getItem('durationOfVideo');
     if (videoIdFromLocalStorage) {
       try {
         const parsedData = JSON.parse(videoIdFromLocalStorage)
@@ -46,10 +68,10 @@ function App () {
         console.error("No se puede parsear el valor, ya que no es un string válido");
       }
     }
-    if (durationOfVideoFromLocalStorage) {
-      setDurationOfVideo(JSON.parse(durationOfVideoFromLocalStorage));
-      console.log('durationOfVideoFromLocalStorage cargado desde localStorage');
-    }
+    // if (durationOfVideoFromLocalStorage) {
+    //   setDurationOfVideo(JSON.parse(durationOfVideoFromLocalStorage));
+    //   console.log('durationOfVideoFromLocalStorage cargado desde localStorage');
+    // }
 
   }, [])
 
@@ -71,6 +93,9 @@ function App () {
           currentSegmentIndex={currentSegmentIndex}
           setCurrentSegmentIndex={setCurrentSegmentIndex}
           durationOfVideo={durationOfVideo}
+          currentTime={currentTime}
+          duration={duration}
+
         />
       }
 

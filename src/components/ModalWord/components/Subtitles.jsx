@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { fetchSubtitles } from "../../../utils/utils";
+import { fetchSubtitles, formatTime } from "../../../utils/utils";
 
 import {
   Drawer,
@@ -69,7 +69,7 @@ export const Subtitles = ({ setModalVisible, modalVisible, videoId, transcript, 
                 backgroundColor: index === currentSegmentIndex ? "rgb(37 37 37)" : "transparent"
               }}
             >
-              <code className='time-subtitle'> {(item.start / 100).toFixed(2)}</code>
+              <code className='time-subtitle'> {formatTime(item.start)}</code>
               <div className='text-wrapper'>
                 <span
                   className='text-subtitle'

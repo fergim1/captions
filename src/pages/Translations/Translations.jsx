@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import {
   Accordion,
   AccordionContent,
@@ -71,23 +71,25 @@ export const Translations = () => {
   };
 
   return (
-    <div className="page-wrapper-translations">
+    <div className="page-wrapper-translations ">
+      <div className="w-full h-full flex flex-row items-center">
+        <Link
+          to="/"
+          className='link-back-to-home w-24'
+        >
+          <FontAwesomeIcon icon={faChevronLeft} size="lg" />
+        </Link>
+        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight mt-4 mb-4">
+          Translations
+        </h2>
 
-      <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-        Translations
-      </h2>
-      <Link
-        to="/"
-        className='link-back-to-home'
-      >
-        volver
-      </Link>
+      </div>
 
 
       {translations &&
         translations.map((item) => (
-          <AlertDialog key={item.idDocument} >
-            <Accordion type="single" collapsible className="w-full mb-4 bg-[#161616] rounded-md" >
+          <AlertDialog key={item.idDocument} className="w-80">
+            <Accordion type="single" collapsible className="w-full mb-4 bg-[#161616] rounded-md " >
               <AccordionItem value="item-1">
                 <AccordionTrigger className="p-2 mb-4">
                   {item.original}

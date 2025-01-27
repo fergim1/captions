@@ -1,7 +1,9 @@
+
+import { useEffect } from 'react';
 import YoutubePlayer from 'react-player/youtube';
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStop, faPlay, faHome, faLanguage } from "@fortawesome/free-solid-svg-icons";
+import { faStop, faPlay, faHome, faLanguage, faRotateLeft, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 
 export const YouTubeVideo = ({
@@ -12,7 +14,9 @@ export const YouTubeVideo = ({
   setPlaying,
   currentSegmentIndex,
   setCurrentSegmentIndex,
-  durationOfVideo
+  durationOfVideo,
+  currentTime,
+  duration
 }) => {
 
 
@@ -22,8 +26,15 @@ export const YouTubeVideo = ({
     setPlaying(prev => !prev)
     let segment = transcript[currentSegmentIndex]
     localStorage.setItem('currentSegment', JSON.stringify(segment));
+    localStorage.setItem('current', JSON.stringify(playerRef.current.getCurrentTime()));
   }
 
+  useEffect(() => {
+    const savedTime = parseFloat(localStorage.getItem("current"));
+    if (savedTime && playerRef.current) {
+      playerRef.current.seekTo(savedTime, "seconds");
+    }
+  }, []);
 
   const handleProgress = (state) => {
     if (!transcript) return
@@ -41,7 +52,7 @@ export const YouTubeVideo = ({
         setCurrentSegmentIndex(currentSegment);
 
         let segment = localStorage.getItem('currentSegment');
-        console.log(segment)
+        // console.log(segment)
 
 
         // Desplaza el subtítulo actual al centro de la caja de subtítulos originales
@@ -65,6 +76,31 @@ export const YouTubeVideo = ({
     navigate("/translations")
   }
 
+  // const handle15SegLess = () => {
+  //   if (!playing) return
+  //   console.log("15 seg Less")
+
+  // }
+
+  // const handle15SegMore = () => {
+  //   if (!playing) return
+  //   console.log("15 seg More")
+  // }
+  const handle15SegLess = () => {
+    if (!playerRef.current) return;
+    if (!playing) return
+    const time = playerRef.current.getCurrentTime() - 15;
+    playerRef.current.seekTo(Math.max(0, time), "seconds");
+  };
+
+  const handle15SegMore = () => {
+    if (!playerRef.current) return;
+    if (!playing) return
+    const time = playerRef.current.getCurrentTime() + 15;
+    playerRef.current.seekTo(time, "seconds");
+  };
+
+
   return (
     <div className='wrapper-video-and-controls' >
       <div className='player-wrapper'>
@@ -84,31 +120,36 @@ export const YouTubeVideo = ({
         />
       </div>
       <div className='react-player-controls'>
-        <button
-          // className='button-home'
-          onClick={handleDeleteCache}
-          className={playing ? "text-[#8888]" : "text-white"}
-        >
-          <FontAwesomeIcon icon={faHome} />
-        </button>
+        <div className="flex flex-row justify-center items-center gap-6">
+          <button
+            // className='button-home'
+            onClick={handleDeleteCache}
+            className={playing ? "text-[#8888]" : "text-white"}
+          >
+            <FontAwesomeIcon icon={faHome} />
+          </button>
 
-        <button
-          onClick={handleGoToTranslations}
-          // to="/translations"
-          className={playing ? "text-[#8888]" : "text-white"}
-        // className='link-go-to-translations'
-        >
-          <FontAwesomeIcon icon={faLanguage} />
-        </button>
+          <button
+            onClick={handleGoToTranslations}
+            className={playing ? "text-[#8888]" : "text-white"}
+          >
+            <FontAwesomeIcon icon={faLanguage} />
+          </button>
+        </div>
 
-        <button
-          className='control-stop-play'
-          onClick={handlePlayPause}
-        >
-          {playing ? <FontAwesomeIcon icon={faStop} /> : <FontAwesomeIcon icon={faPlay} />}
-        </button>
 
-        {durationOfVideo && <p className='durationOfVideo'>{durationOfVideo}</p>}
+        <div className='flex flex-row justify-center items-center gap-4'>
+          <FontAwesomeIcon icon={faRotateLeft} onClick={handle15SegLess} className={playing ? "text-white" : "text-[#8888]"} />
+          <button
+            className='control-stop-play'
+            onClick={handlePlayPause}
+          >
+            {playing ? <FontAwesomeIcon icon={faStop} /> : <FontAwesomeIcon icon={faPlay} />}
+          </button>
+          <FontAwesomeIcon icon={faArrowRotateRight} onClick={handle15SegMore} className={playing ? "text-white" : "text-[#8888]"} />
+        </div>
+
+        <p className='durationOfVideo'>{currentTime} / {duration}</p>
 
 
       </div>

@@ -44,7 +44,6 @@ const fetchSubtitles = async (videoId, language = "en", setTranscript, setDurati
     setTranscript(normalizedSubtitles);
     setDurationOfVideo(durationOfVideo)
     localStorage.setItem('dataSubtitles', JSON.stringify(normalizedSubtitles));
-    localStorage.setItem('durationOfVideo', JSON.stringify(durationOfVideo));
 
 
 
@@ -56,10 +55,17 @@ const fetchSubtitles = async (videoId, language = "en", setTranscript, setDurati
   }
 };
 
+// Función para convertir segundos a formato mm:ss
+const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${minutes}:${secs < 10 ? "0" + secs : secs}`; // Asegurarse de tener dos dígitos para los segundos
+};
 
 
 
 export {
   getYouTubeVideoId,
   fetchSubtitles,
+  formatTime
 }
