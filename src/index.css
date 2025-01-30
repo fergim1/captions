@@ -95,7 +95,7 @@ body {
 .react-player-controls {
   display: flex;
   justify-content: space-between;
-  padding: 18px 18px;
+  padding: 18px 12px;
   flex-direction: row;
   align-items: center;
 }

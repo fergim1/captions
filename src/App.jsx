@@ -68,10 +68,6 @@ function App () {
         console.error("No se puede parsear el valor, ya que no es un string válido");
       }
     }
-    // if (durationOfVideoFromLocalStorage) {
-    //   setDurationOfVideo(JSON.parse(durationOfVideoFromLocalStorage));
-    //   console.log('durationOfVideoFromLocalStorage cargado desde localStorage');
-    // }
 
   }, [])
 
@@ -107,8 +103,6 @@ function App () {
           handleSeek={handleSeek}
           currentSegmentIndex={currentSegmentIndex}
           setDurationOfVideo={setDurationOfVideo}
-          setModalVisible={setModalVisible}
-          modalVisible={modalVisible}
         />
 
       }

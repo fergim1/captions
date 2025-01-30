@@ -24,15 +24,15 @@ function getYouTubeVideoId (url) {
   }
 }
 
-const fetchSubtitles = async (videoId, language = "en", setTranscript, setDurationOfVideo) => {
-  if (!videoId) return;
-
+const fetchSubtitles = async (videoId, language = "en") => {
+  if (!videoId) return null;
 
   try {
     const response = await fetch(`${url_server}/api/transcript?videoId=${videoId}`);
     if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+
     const data = await response.json();
-    const { subtitles, totalText, textTranslated, durationOfVideo } = data
+    const { subtitles, totalText, textTranslated, } = data;
 
     // Normaliza los valores de start y dur en el transcript
     const normalizedSubtitles = subtitles.map((segment) => ({
@@ -40,18 +40,16 @@ const fetchSubtitles = async (videoId, language = "en", setTranscript, setDurati
       start: parseFloat(segment.start),
       dur: parseFloat(segment.dur),
     }));
-    // Subtitulos normalizados
-    setTranscript(normalizedSubtitles);
-    setDurationOfVideo(durationOfVideo)
-    localStorage.setItem('dataSubtitles', JSON.stringify(normalizedSubtitles));
 
+    // Guarda en localStorage
+    localStorage.setItem("dataSubtitles", JSON.stringify(normalizedSubtitles));
 
+    return { subtitles: normalizedSubtitles };
 
-    // Texto original
-    // console.log(totalTex)
 
   } catch (error) {
-    console.error('Error fetching transcript:', error);
+    console.error("Error fetching transcript:", error);
+    throw error; // Relanzamos el error para que `useEffect` pueda capturarlo en `catch`
   }
 };
 

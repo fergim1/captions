@@ -1,59 +1,59 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchSubtitles, formatTime } from "../../../utils/utils";
 
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
-import { ScrollArea } from "@/components/ui/scroll-area";
 
-export const Subtitles = ({ setModalVisible, modalVisible, videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, setDurationOfVideo }) => {
+import { Skeleton } from "@/components/ui/skeleton";
+
+export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, setDurationOfVideo }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const originalBoxRef = useRef(null);
 
-
   useEffect(() => {
     const subtitlesFromLocalStorage = localStorage.getItem('dataSubtitles');
+
     if (subtitlesFromLocalStorage) {
-      // Si hay datos en localStorage, los cargamos al estado
       setTranscript(JSON.parse(subtitlesFromLocalStorage));
+      return;
     }
-    else {
 
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        setLoading(true)
-        setError(null)
-        fetchSubtitles(videoId, 'en', setTranscript, setDurationOfVideo);
+        const response = await fetchSubtitles(videoId, 'en'); // Asegúrate de que fetchSubtitles retorna una promesa
+        const { subtitles } = response
+        setTranscript(subtitles);
+      } catch (err) {
+        setError(true);
+        console.error("Error fetching subtitles:", err);
+      } finally {
+        setLoading(false);
       }
-      catch (error) {
-        setError(true)
-        console.log(error)
+    };
 
-      }
-      finally {
-        setLoading(false)
-      }
+    if (videoId) {
+      fetchData();
     }
-
-  }, [videoId])
-
+  }, [videoId]);
 
   return (
     <div className="wrapper-subtitles">
-      {error && <p className="subtitles-error">Ocurrio un error al intentar cargar los subtitulos</p>}
-      {loading && <div className="subtitles-loading">
-        <p  >Cargando subtitulos...</p>
-        <p>Demora aprox. de 1 o 2 minutos</p>
-      </div>}
+      {error && <p className="subtitles-error">Ocurrio un error al intentar cargar los subtitulos, recuerda que solo puedes cargar videos en ingles</p>}
+      {loading &&
+        // <div className="subtitles-loading">
+        <div className="w-full h-[360px] gap-2 pt-8 flex flex-col justify-start items-center space-y-2">
+          <Skeleton className="h-6 w-[250px]" />
+          <Skeleton className="h-6 w-[250px]" />
+          <Skeleton className="h-6 w-[250px]" />
+          <Skeleton className="h-6 w-[250px]" />
+        </div>
+        //   <p  >Cargando subtitulos...</p>
+        //   <p>Demora aprox. de 1 o 2 minutos</p>
+        // </div>
+      }
       {transcript && <div className='caja-subtitles'
         ref={originalBoxRef}
       >

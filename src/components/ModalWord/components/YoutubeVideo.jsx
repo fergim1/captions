@@ -76,16 +76,6 @@ export const YouTubeVideo = ({
     navigate("/translations")
   }
 
-  // const handle15SegLess = () => {
-  //   if (!playing) return
-  //   console.log("15 seg Less")
-
-  // }
-
-  // const handle15SegMore = () => {
-  //   if (!playing) return
-  //   console.log("15 seg More")
-  // }
   const handle15SegLess = () => {
     if (!playerRef.current) return;
     if (!playing) return
@@ -120,7 +110,7 @@ export const YouTubeVideo = ({
         />
       </div>
       <div className='react-player-controls'>
-        <div className="flex flex-row justify-center items-center gap-6">
+        <div className="flex flex-row justify-center items-center gap-6 w-1/4">
           <button
             // className='button-home'
             onClick={handleDeleteCache}
@@ -138,7 +128,7 @@ export const YouTubeVideo = ({
         </div>
 
 
-        <div className='flex flex-row justify-center items-center gap-4'>
+        <div className='flex flex-row justify-center items-center gap-4 w-2/4'>
           <FontAwesomeIcon icon={faRotateLeft} onClick={handle15SegLess} className={playing ? "text-white" : "text-[#8888]"} />
           <button
             className='control-stop-play'
@@ -148,8 +138,9 @@ export const YouTubeVideo = ({
           </button>
           <FontAwesomeIcon icon={faArrowRotateRight} onClick={handle15SegMore} className={playing ? "text-white" : "text-[#8888]"} />
         </div>
-
-        <p className='durationOfVideo'>{currentTime} / {duration}</p>
+        <div className='flex flex-row justify-center items-center w-1/4'>
+          <p className='durationOfVideo'>{currentTime} / {duration}</p>
+        </div>
 
 
       </div>

@@ -28,13 +28,13 @@ export const InputSection = ({ setVideoId }) => {
     // <div className="wrapper-input" >
     <div className="flex w-screen h-screen flex-col justify-center items-center" >
 
-      <div className="flex w-full max-w-xs flex-col space-y-4">
-        <FontAwesomeIcon icon={faYoutube} size="3x" color="red" />
-        <p className='text-xl text-center text-white'>Pegar link</p>
+      <div className="flex w-full max-w-xs flex-col space-y-6">
+        {/* <FontAwesomeIcon icon={faYoutube} size="3x" color="red" /> */}
+        {/* <p className='text-xl text-center text-white'>Pegar link</p> */}
         <Input
           className="text-base"
           type="text"
-          placeholder="" value={link}
+          placeholder="Pegar link" value={link}
           onChange={handleInputChange}
         />
         <Button
