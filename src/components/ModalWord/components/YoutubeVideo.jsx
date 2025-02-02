@@ -1,9 +1,11 @@
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import YoutubePlayer from 'react-player/youtube';
 import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStop, faPlay, faHome, faLanguage, faRotateLeft, faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faHome, faLanguage, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
+import { Slider } from "@/components/ui/slider"
+import { formatTime } from '@/utils/utils';
 
 
 export const YouTubeVideo = ({
@@ -91,6 +93,20 @@ export const YouTubeVideo = ({
   };
 
 
+  const handleSliderValueChange = (value) => {
+    //TODO : // mostrar tiempo mientras te moves, como se ve en youtube
+    console.log(formatTime(value[0]))
+    if (!playerRef.current) return;
+    playerRef.current?.seekTo(value[0], "seconds");
+
+  }
+
+  const [muted, seTmuted] = useState(false)
+
+  const handleMuted = () => {
+    seTmuted(prev => !prev)
+  }
+
   return (
     <div className='wrapper-video-and-controls' >
       <div className='player-wrapper'>
@@ -107,9 +123,26 @@ export const YouTubeVideo = ({
           width='100%'
           height='100%'
           onDuration={(e) => console.log("Duracion del video en segundos", e)}
+          muted={muted}
         />
       </div>
+      <div className='slider flex w-full h-auto flex-row justify-center items-center pl-2 pr-2'>
+        <FontAwesomeIcon
+          icon={faVolumeXmark}
+          onClick={handleMuted}
+          className={`mr-[40px] text-[20px] ${muted ? "opacity-[100 %]" : "opacity-[40%]"}`}
+        />
+        <Slider
+          className="w-[70%]"
+          defaultValue={[0]}
+          max={playerRef.current ? playerRef.current.getDuration() : 100}
+          step={1}
+          onValueChange={handleSliderValueChange}
+        />
+      </div>
+
       <div className='react-player-controls'>
+
         <div className="flex flex-row justify-center items-center gap-6 w-1/4">
           <button
             // className='button-home'
@@ -134,7 +167,7 @@ export const YouTubeVideo = ({
             className='control-stop-play'
             onClick={handlePlayPause}
           >
-            {playing ? <FontAwesomeIcon icon={faStop} /> : <FontAwesomeIcon icon={faPlay} />}
+            {playing ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}
           </button>
           <FontAwesomeIcon icon={faArrowRotateRight} onClick={handle15SegMore} className={playing ? "text-white" : "text-[#8888]"} />
         </div>

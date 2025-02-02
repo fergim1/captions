@@ -134,7 +134,7 @@ body {
 .caja-subtitles {
   overflow-y: auto;
   /* height: calc(50% - 10px); // Para cuando quiero la traducicon debajo  */
-  height: 360px;
+  height: 300px;
   width: 100%;
   /* border: 2px solid green; */
   background: black;
