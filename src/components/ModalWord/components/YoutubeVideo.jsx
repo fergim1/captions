@@ -18,18 +18,14 @@ export const YouTubeVideo = ({
   setCurrentSegmentIndex,
   durationOfVideo,
   currentTime,
-  duration
+  duration,
+  setCurrentTime
 }) => {
 
-
+  const [valueSlider, setValueSlider] = useState(0)
+  const [showValueSlider, setShowValueSlider] = useState(false)
   let navigate = useNavigate();
 
-  const handlePlayPause = () => {
-    setPlaying(prev => !prev)
-    let segment = transcript[currentSegmentIndex]
-    localStorage.setItem('currentSegment', JSON.stringify(segment));
-    localStorage.setItem('current', JSON.stringify(playerRef.current.getCurrentTime()));
-  }
 
   useEffect(() => {
     const savedTime = parseFloat(localStorage.getItem("current"));
@@ -38,11 +34,19 @@ export const YouTubeVideo = ({
     }
   }, []);
 
+  const handlePlayPause = () => {
+    setPlaying(prev => !prev)
+    let segment = transcript[currentSegmentIndex]
+    localStorage.setItem('currentSegment', JSON.stringify(segment));
+    localStorage.setItem('current', JSON.stringify(playerRef.current.getCurrentTime()));
+  }
+
+
   const handleProgress = (state) => {
     if (!transcript) return
     if (transcript && playing) {
       const playedSeconds = state.playedSeconds;
-
+      setValueSlider(playedSeconds)
       const currentSegment = transcript.findIndex(
         (segment) =>
           playedSeconds >= segment.start &&
@@ -54,8 +58,6 @@ export const YouTubeVideo = ({
         setCurrentSegmentIndex(currentSegment);
 
         let segment = localStorage.getItem('currentSegment');
-        // console.log(segment)
-
 
         // Desplaza el subtítulo actual al centro de la caja de subtítulos originales
         const subtitleElement = document.getElementById(`subtitle-${currentSegment}`);
@@ -78,11 +80,13 @@ export const YouTubeVideo = ({
     navigate("/translations")
   }
 
+
   const handle15SegLess = () => {
     if (!playerRef.current) return;
     if (!playing) return
     const time = playerRef.current.getCurrentTime() - 15;
     playerRef.current.seekTo(Math.max(0, time), "seconds");
+    setValueSlider(time)
   };
 
   const handle15SegMore = () => {
@@ -90,12 +94,13 @@ export const YouTubeVideo = ({
     if (!playing) return
     const time = playerRef.current.getCurrentTime() + 15;
     playerRef.current.seekTo(time, "seconds");
+    setValueSlider(time)
   };
 
 
+
   const handleSliderValueChange = (value) => {
-    //TODO : // mostrar tiempo mientras te moves, como se ve en youtube
-    console.log(formatTime(value[0]))
+    setValueSlider(value)
     if (!playerRef.current) return;
     playerRef.current?.seekTo(value[0], "seconds");
 
@@ -105,6 +110,14 @@ export const YouTubeVideo = ({
 
   const handleMuted = () => {
     seTmuted(prev => !prev)
+  }
+
+  const handleStart = () => {
+    setShowValueSlider(true)
+  }
+
+  const handleEnd = () => {
+    setShowValueSlider(false)
   }
 
   return (
@@ -125,6 +138,12 @@ export const YouTubeVideo = ({
           onDuration={(e) => console.log("Duracion del video en segundos", e)}
           muted={muted}
         />
+        {showValueSlider && <div>
+          <p className='absolute absolute inset-0 flex items-end justify-center text-white text-[16px]'>
+            {formatTime(valueSlider)}
+          </p>
+
+        </div>}
       </div>
       <div className='slider flex w-full h-auto flex-row justify-center items-center pl-2 pr-2'>
         <FontAwesomeIcon
@@ -135,9 +154,14 @@ export const YouTubeVideo = ({
         <Slider
           className="w-[70%]"
           defaultValue={[0]}
+          value={[valueSlider]}
           max={playerRef.current ? playerRef.current.getDuration() : 100}
           step={1}
           onValueChange={handleSliderValueChange}
+          onPointerDown={handleStart}
+          onTouchStart={handleStart}
+          onPointerUp={handleEnd}
+          onTouchEnd={handleEnd}
         />
       </div>
 

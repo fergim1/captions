@@ -84,7 +84,7 @@ const GoogleTranslateLibrary = ({ word, setModalVisible }) => {
       language: "es",
       createdAt: new Date()
     }
-    console.log(payload)
+
     saveTranslation(payload)
     toast({
       title: "Traducción guardada",
@@ -106,7 +106,7 @@ const GoogleTranslateLibrary = ({ word, setModalVisible }) => {
         <FontAwesomeIcon style={{ color: "#3d3d3d", }} icon={faMinus} size={"2xl"} onClick={() => setModalVisible(false)} />
       </div>
       <div className='flex flex-col item-center justify-start p-3 gap-4'>
-        <p className="text-lg font-medium leading-none">{word}</p>
+        <p className="text-lg leading-8 font-medium leading-none">{word}</p>
         <Separator />
         {loading && <p style={{ color: "red" }}>Cargando...</p>}
         {error && <p style={{ color: "red" }}>Ocurrio un error al intentar cargar los subtitulos</p>}

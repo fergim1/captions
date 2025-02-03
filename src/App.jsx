@@ -23,7 +23,6 @@ function App () {
 
 
   const handleSeek = (item) => {
-    console.log(item)
     if (!playing) {
       setModalVisible(true)
       setWordToTranslate(item.text)
@@ -91,6 +90,7 @@ function App () {
           durationOfVideo={durationOfVideo}
           currentTime={currentTime}
           duration={duration}
+          setCurrentTime={setCurrentTime}
 
         />
       }
