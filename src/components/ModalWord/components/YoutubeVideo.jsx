@@ -19,7 +19,8 @@ export const YouTubeVideo = ({
   durationOfVideo,
   currentTime,
   duration,
-  setCurrentTime
+  setCurrentTime,
+  setIndexLiTranslated
 }) => {
 
   const [valueSlider, setValueSlider] = useState(0)
@@ -35,6 +36,7 @@ export const YouTubeVideo = ({
   }, []);
 
   const handlePlayPause = () => {
+    setIndexLiTranslated(null)
     setPlaying(prev => !prev)
     let segment = transcript[currentSegmentIndex]
     localStorage.setItem('currentSegment', JSON.stringify(segment));
@@ -167,7 +169,7 @@ export const YouTubeVideo = ({
 
       <div className='react-player-controls'>
 
-        <div className="flex flex-row justify-center items-center gap-6 w-1/4">
+        <div className="flex flex-row justify-center items-center gap-6 w-1/3">
           <button
             // className='button-home'
             onClick={handleDeleteCache}
@@ -184,8 +186,11 @@ export const YouTubeVideo = ({
           </button>
         </div>
 
+        <div className='flex flex-row justify-center items-center w-1/3'>
+          <p className='durationOfVideo'>{currentTime} / {duration}</p>
+        </div>
 
-        <div className='flex flex-row justify-center items-center gap-4 w-2/4'>
+        <div className='flex flex-row justify-center items-center gap-4 w-1/3'>
           <FontAwesomeIcon icon={faRotateLeft} onClick={handle15SegLess} className={playing ? "text-white" : "text-[#8888]"} />
           <button
             className='control-stop-play'
@@ -195,9 +200,7 @@ export const YouTubeVideo = ({
           </button>
           <FontAwesomeIcon icon={faArrowRotateRight} onClick={handle15SegMore} className={playing ? "text-white" : "text-[#8888]"} />
         </div>
-        <div className='flex flex-row justify-center items-center w-1/4'>
-          <p className='durationOfVideo'>{currentTime} / {duration}</p>
-        </div>
+
 
 
       </div>

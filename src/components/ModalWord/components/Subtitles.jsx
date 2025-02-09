@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchSubtitles, formatTime } from "../../../utils/utils";
+import Loading from "@/components/Loading/Loading";
 
-
-import { Skeleton } from "@/components/ui/skeleton";
-
-export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, setDurationOfVideo }) => {
+export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, indexLiTranslated }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -23,7 +21,7 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
       setLoading(true);
       setError(null);
       try {
-        const response = await fetchSubtitles(videoId, 'en'); // Asegúrate de que fetchSubtitles retorna una promesa
+        const response = await fetchSubtitles(videoId, 'en');
         const { subtitles } = response
         setTranscript(subtitles);
       } catch (err) {
@@ -42,18 +40,7 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
   return (
     <div className="wrapper-subtitles">
       {error && <p className="subtitles-error">Ocurrio un error al intentar cargar los subtitulos, recuerda que solo puedes cargar videos en ingles</p>}
-      {loading &&
-        // <div className="subtitles-loading">
-        <div className="w-full h-[360px] gap-2 pt-8 flex flex-col justify-start items-center space-y-2">
-          <Skeleton className="h-6 w-[250px]" />
-          <Skeleton className="h-6 w-[250px]" />
-          <Skeleton className="h-6 w-[250px]" />
-          <Skeleton className="h-6 w-[250px]" />
-        </div>
-        //   <p  >Cargando subtitulos...</p>
-        //   <p>Demora aprox. de 1 o 2 minutos</p>
-        // </div>
-      }
+      {loading && <Loading />}
       {transcript && <div className='caja-subtitles'
         ref={originalBoxRef}
       >
@@ -64,9 +51,11 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
               className='li-subtitles'
               key={index}
               id={`subtitle-${index}`}
-              onClick={() => handleSeek(item)}
+              onClick={() => handleSeek(item, index)}
               style={{
-                backgroundColor: index === currentSegmentIndex ? "rgb(37 37 37)" : "transparent"
+                backgroundColor: index === currentSegmentIndex ? "rgb(37 37 37)" : "transparent",
+                border: index === indexLiTranslated ? "1px solid #8b8b8b" : "transparent",
+
               }}
             >
               <code className='time-subtitle'> {formatTime(item.start)}</code>

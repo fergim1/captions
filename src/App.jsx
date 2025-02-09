@@ -20,12 +20,16 @@ function App () {
 
   const [modalVisible, setModalVisible] = useState(false)
   const [wordToTranslate, setWordToTranslate] = useState(null)
+  const [indexLiTranslated, setIndexLiTranslated] = useState(null)
 
 
-  const handleSeek = (item) => {
+
+  const handleSeek = (item, index) => {
     if (!playing) {
       setModalVisible(true)
       setWordToTranslate(item.text)
+      console.log(index)
+      setIndexLiTranslated(index)
       return
     }
     if (playerRef.current) {
@@ -57,7 +61,6 @@ function App () {
 
   useEffect(() => {
     const videoIdFromLocalStorage = localStorage.getItem('videoId');
-    // const durationOfVideoFromLocalStorage = localStorage.getItem('durationOfVideo');
     if (videoIdFromLocalStorage) {
       try {
         const parsedData = JSON.parse(videoIdFromLocalStorage)
@@ -91,6 +94,7 @@ function App () {
           currentTime={currentTime}
           duration={duration}
           setCurrentTime={setCurrentTime}
+          setIndexLiTranslated={setIndexLiTranslated}
 
         />
       }
@@ -102,7 +106,7 @@ function App () {
           setTranscript={setTranscript}
           handleSeek={handleSeek}
           currentSegmentIndex={currentSegmentIndex}
-          setDurationOfVideo={setDurationOfVideo}
+          indexLiTranslated={indexLiTranslated}
         />
 
       }
