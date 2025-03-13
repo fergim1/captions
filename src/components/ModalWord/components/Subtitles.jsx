@@ -22,7 +22,9 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
       setError(null);
       try {
         const response = await fetchSubtitles(videoId, 'en');
-        const { subtitles } = response
+        console.log(response)
+        const { subtitles, totalText } = response
+        console.log(totalText)
         setTranscript(subtitles);
       } catch (err) {
         setError(true);

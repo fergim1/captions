@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { saveTranslation, deleteTranslation } from '../utils/crud-firefox';
 import { extractSpanishText } from '../utils/extractSpanishText';
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
-
-
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import { ToastAction } from "@/components/ui/toast"
@@ -86,16 +83,14 @@ const GoogleTranslateLibrary = ({ word, setModalVisible }) => {
     }
 
     saveTranslation(payload)
+
+    const toastContent = () => (
+      < div id="toast-content" style={{ width: "100vw", display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}>
+        <p> Traducción guardada</p> <span>✔️ </span>
+      </div>
+    )
     toast({
-      title: "Traducción guardada",
-      // description: "Para deshacerlo haz click en el boton",
-      action:
-        <ToastAction
-          altText="Cerrar"
-        // onClick={()=>handleDeletItem()}
-        >
-          Cerrar
-        </ToastAction>,
+      title: toastContent(),
     })
   }
 

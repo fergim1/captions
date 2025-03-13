@@ -3,7 +3,7 @@
 import * as React from "react"
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1000000
+const TOAST_REMOVE_DELAY = 10
 
 const actionTypes = {
   ADD_TOAST: "ADD_TOAST",
@@ -14,7 +14,7 @@ const actionTypes = {
 
 let count = 0
 
-function genId() {
+function genId () {
   count = (count + 1) % Number.MAX_SAFE_INTEGER
   return count.toString();
 }
@@ -70,9 +70,9 @@ export const reducer = (state, action) => {
         toasts: state.toasts.map((t) =>
           t.id === toastId || toastId === undefined
             ? {
-                ...t,
-                open: false,
-              }
+              ...t,
+              open: false,
+            }
             : t),
       };
     }
@@ -94,14 +94,14 @@ const listeners = []
 
 let memoryState = { toasts: [] }
 
-function dispatch(action) {
+function dispatch (action) {
   memoryState = reducer(memoryState, action)
   listeners.forEach((listener) => {
     listener(memoryState)
   })
 }
 
-function toast({
+function toast ({
   ...props
 }) {
   const id = genId()
@@ -132,7 +132,7 @@ function toast({
   }
 }
 
-function useToast() {
+function useToast () {
   const [state, setState] = React.useState(memoryState)
 
   React.useEffect(() => {

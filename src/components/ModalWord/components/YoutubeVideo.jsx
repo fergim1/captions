@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import YoutubePlayer from 'react-player/youtube';
 import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faHome, faLanguage, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faHome, faLanguage, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { Slider } from "@/components/ui/slider"
 import { formatTime } from '@/utils/utils';
 
@@ -148,11 +148,20 @@ export const YouTubeVideo = ({
         </div>}
       </div>
       <div className='slider flex w-full h-auto flex-row justify-center items-center pl-2 pr-2'>
-        <FontAwesomeIcon
-          icon={faVolumeXmark}
-          onClick={handleMuted}
-          className={`mr-[40px] text-[20px] ${muted ? "opacity-[100 %]" : "opacity-[40%]"}`}
-        />
+
+        {muted ?
+          <FontAwesomeIcon
+            icon={faVolumeXmark}
+            onClick={handleMuted}
+            className={`mr-[40px] text-[20px]`}
+          />
+          :
+          <FontAwesomeIcon
+            icon={faVolumeHigh}
+            onClick={handleMuted}
+            className="mr-[40px] text-[20px]"
+          />
+        }
         <Slider
           className="w-[70%]"
           defaultValue={[0]}
