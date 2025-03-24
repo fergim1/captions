@@ -1,12 +1,11 @@
 
 import { useState, useEffect } from 'react';
 import YoutubePlayer from 'react-player/youtube';
-import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faHome, faLanguage, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faTrash, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark, faVolumeHigh, faBars } from "@fortawesome/free-solid-svg-icons";
 import { Slider } from "@/components/ui/slider"
 import { formatTime } from '@/utils/utils';
-
+import SideBar from '../../SideBar/SideBar';
 
 export const YouTubeVideo = ({
   videoId,
@@ -25,7 +24,6 @@ export const YouTubeVideo = ({
 
   const [valueSlider, setValueSlider] = useState(0)
   const [showValueSlider, setShowValueSlider] = useState(false)
-  let navigate = useNavigate();
 
 
   useEffect(() => {
@@ -55,7 +53,6 @@ export const YouTubeVideo = ({
           playedSeconds < segment.start + segment.dur
       );
 
-
       if (currentSegment !== currentSegmentIndex && currentSegment !== -1) {
         setCurrentSegmentIndex(currentSegment);
 
@@ -70,18 +67,13 @@ export const YouTubeVideo = ({
       }
     }
   };
+
   const handleDeleteCache = () => {
     if (playing) return
     localStorage.clear()
     window.location.reload()
     console.log("cache borrado")
   }
-
-  const handleGoToTranslations = () => {
-    if (playing) return
-    navigate("/translations")
-  }
-
 
   const handle15SegLess = () => {
     if (!playerRef.current) return;
@@ -98,8 +90,6 @@ export const YouTubeVideo = ({
     playerRef.current.seekTo(time, "seconds");
     setValueSlider(time)
   };
-
-
 
   const handleSliderValueChange = (value) => {
     setValueSlider(value)
@@ -121,6 +111,13 @@ export const YouTubeVideo = ({
   const handleEnd = () => {
     setShowValueSlider(false)
   }
+
+  const [openSideBar, setOpenSideBar] = useState(false)
+
+  const handleSideBar = () => {
+    setOpenSideBar(true)
+  }
+
 
   return (
     <div className='wrapper-video-and-controls' >
@@ -180,23 +177,18 @@ export const YouTubeVideo = ({
 
         <div className="flex flex-row justify-center items-center gap-6 w-1/3">
           <button
-            // className='button-home'
             onClick={handleDeleteCache}
             className={playing ? "text-[#8888]" : "text-white"}
           >
-            <FontAwesomeIcon icon={faHome} />
+            <FontAwesomeIcon icon={faTrash} />
           </button>
 
           <button
-            onClick={handleGoToTranslations}
+            onClick={handleSideBar}
             className={playing ? "text-[#8888]" : "text-white"}
           >
-            <FontAwesomeIcon icon={faLanguage} />
+            <FontAwesomeIcon icon={faBars} />
           </button>
-        </div>
-
-        <div className='flex flex-row justify-center items-center w-1/3'>
-          <p className='durationOfVideo'>{currentTime} / {duration}</p>
         </div>
 
         <div className='flex flex-row justify-center items-center gap-4 w-1/3'>
@@ -210,9 +202,14 @@ export const YouTubeVideo = ({
           <FontAwesomeIcon icon={faArrowRotateRight} onClick={handle15SegMore} className={playing ? "text-white" : "text-[#8888]"} />
         </div>
 
+        <div className='flex flex-row justify-center items-center w-1/3'>
+          <p className='durationOfVideo'>{currentTime} / {duration}</p>
+        </div>
+
 
 
       </div>
+      <SideBar openSideBar={openSideBar} setOpenSideBar={setOpenSideBar} />
     </div>
   )
 }

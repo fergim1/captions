@@ -23,7 +23,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-export const Translations = () => {
+const TranslationsPage = () => {
   const [translations, setTranslations] = useState(null)
 
   function sortByMostRecent (data) {
@@ -133,3 +133,5 @@ export const Translations = () => {
     </div>
   )
 }
+
+export default TranslationsPage

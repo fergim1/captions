@@ -74,7 +74,6 @@ function App () {
   }, [])
 
 
-  ///// TODO: agregar y controlar barra de progreso del video ////////////
 
   return (
     <div className="App">

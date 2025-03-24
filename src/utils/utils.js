@@ -32,7 +32,7 @@ const fetchSubtitles = async (videoId, language = "en") => {
     if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
 
     const data = await response.json();
-    const { subtitles, totalText, textTranslated, } = data;
+    const { subtitles, totalText, textTranslated, deepseekResponse } = data;
 
     // Normaliza los valores de start y dur en el transcript
     const normalizedSubtitles = subtitles.map((segment) => ({
@@ -44,7 +44,7 @@ const fetchSubtitles = async (videoId, language = "en") => {
     // Guarda en localStorage
     localStorage.setItem("dataSubtitles", JSON.stringify(normalizedSubtitles));
 
-    return { subtitles: normalizedSubtitles };
+    return { subtitles: normalizedSubtitles, totalText, deepseekResponse };
 
 
   } catch (error) {

@@ -1,12 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { fetchSubtitles, formatTime } from "../../../utils/utils";
 import Loading from "@/components/Loading/Loading";
-
+import { updatemDeepseekResponse } from "../../../stores/deepseekStore"
 export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, indexLiTranslated }) => {
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const originalBoxRef = useRef(null);
 
   useEffect(() => {
@@ -22,9 +20,9 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
       setError(null);
       try {
         const response = await fetchSubtitles(videoId, 'en');
-        console.log(response)
-        const { subtitles, totalText } = response
-        console.log(totalText)
+        const { subtitles, totalText, deepseekResponse } = response
+        updatemDeepseekResponse(deepseekResponse)
+        console.log(deepseekResponse)
         setTranscript(subtitles);
       } catch (err) {
         setError(true);
