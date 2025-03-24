@@ -14,12 +14,12 @@ const Questions = ({ totalQuestions, currentQuestion, multiple_choice, onNext, s
         <p className="number-question text-base text-gray-400">
           {`${currentQuestion + 1} of ${totalQuestions}`}
         </p>
-        <p className="question text-3xl leading-[1.5] font-semibold">
+        <p className="question text-2xl leading-[1.3] font-semibold">
           {multiple_choice[currentQuestion].question}
         </p>
         {showReference &&
           <p
-            className="reference text-xl mt-[20px] text-gray-400"
+            className="reference text-base mt-[20px] text-gray-400"
           >
             "{multiple_choice[currentQuestion].text_reference}"
           </p>}
@@ -30,7 +30,7 @@ const Questions = ({ totalQuestions, currentQuestion, multiple_choice, onNext, s
           {multiple_choice[currentQuestion].options.map((option, index) => (
             <div key={index} onClick={() => onSelectOption(index)}>
               <div className="option flex flex-row justify-between">
-                <p className="text-base mb-[12px]">{option}</p>
+                <p className="text-sm mb-[10px]">{option}</p>
 
                 {optionSelected === null ? (
                   <FontAwesomeIcon icon={faChevronRight} color="gray" />
@@ -53,7 +53,7 @@ const Questions = ({ totalQuestions, currentQuestion, multiple_choice, onNext, s
                   </>
                 )}
               </div>
-              <Separator className="mb-[16px] bg-gray-300" />
+              <Separator className="mb-[14px] bg-gray-300" />
             </div>
           ))}
         </CardContent>

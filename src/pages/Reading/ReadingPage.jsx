@@ -18,9 +18,9 @@ const ReadingPage = () => {
           {summary.trim().split(/\n\s*\n/).map((paragraph, index) => (
             <p
               key={index}
-              className="font-inter text-lg leading-relaxed text-gray-300 text-justify"
+              className="font-inter text-sm leading-relaxed text-gray-300 text-justify"
               style={{
-                lineHeight: '2'
+                lineHeight: '1.8'
               }}
             >
               {paragraph}
