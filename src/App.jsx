@@ -15,33 +15,13 @@ function App () {
   const [playing, setPlaying] = useState(false);
   const [currentSegmentIndex, setCurrentSegmentIndex] = useState(null);
   const [durationOfVideo, setDurationOfVideo] = useState(null)
-
-  const playerRef = useRef(null);
-
   const [modalVisible, setModalVisible] = useState(false)
   const [wordToTranslate, setWordToTranslate] = useState(null)
   const [indexLiTranslated, setIndexLiTranslated] = useState(null)
-
-
-
-  const handleSeek = (item, index) => {
-    if (!playing) {
-      setModalVisible(true)
-      setWordToTranslate(item.text)
-      console.log(index)
-      setIndexLiTranslated(index)
-      return
-    }
-    if (playerRef.current) {
-      playerRef.current.seekTo(item.start, 'seconds');
-      setPlaying(true);
-    }
-  };
-
-
   const [currentTime, setCurrentTime] = useState(0); // Tiempo reproducido
   const [duration, setDuration] = useState(0); // Duración total
 
+  const playerRef = useRef(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -58,20 +38,32 @@ function App () {
     return () => clearInterval(interval);
   }, []);
 
-
   useEffect(() => {
-    const videoIdFromLocalStorage = localStorage.getItem('videoId');
-    if (videoIdFromLocalStorage) {
+    const videoIdCached = localStorage.getItem("videoId")
+    if (videoIdCached) {
       try {
-        const parsedData = JSON.parse(videoIdFromLocalStorage)
-        setVideoId(parsedData);
+        setVideoId(videoIdCached);
         console.log('videoId cargado desde localStorage');
       } catch (error) {
         console.error("No se puede parsear el valor, ya que no es un string válido");
       }
     }
-
   }, [])
+
+
+  const handleSeek = (item, index) => {
+    if (!playing) {
+      setModalVisible(true)
+      setWordToTranslate(item.text)
+      console.log(index)
+      setIndexLiTranslated(index)
+      return
+    }
+    if (playerRef.current) {
+      playerRef.current.seekTo(item.start, 'seconds');
+      setPlaying(true);
+    }
+  };
 
 
 

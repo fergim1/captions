@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { fetchSubtitles, formatTime } from "../../../utils/utils";
+import { fetchSubtitles, formatTime, getVideoByVideoIdFromFirestore, saveDataVideoToFirestore } from "../../../utils/utils";
 import Loading from "@/components/Loading/Loading";
-import { updatemDeepseekResponse } from "../../../stores/deepseekStore"
+import { updateDeepseekResponse } from "../../../stores/deepseekStore"
+
 export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, indexLiTranslated }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -21,8 +22,16 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
       try {
         const response = await fetchSubtitles(videoId, 'en');
         const { subtitles, totalText, deepseekResponse } = response
-        updatemDeepseekResponse(deepseekResponse)
-        console.log(deepseekResponse)
+        updateDeepseekResponse(deepseekResponse)
+        localStorage.setItem('totalText', JSON.stringify(totalText));
+        localStorage.setItem('deepseekResponse', JSON.stringify(deepseekResponse));
+        const dataVideoToSave = {
+          videoId,
+          subtitles,
+          totalText,
+          deepseekResponse,
+        }
+        saveDataVideoToFirestore(dataVideoToSave)
         setTranscript(subtitles);
       } catch (err) {
         setError(true);
@@ -32,7 +41,28 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
       }
     };
 
+    const getDataFromFirestore = async () => {
+      const dataOfVideoFromFirestore = await getVideoByVideoIdFromFirestore(videoId)
+      console.log(dataOfVideoFromFirestore)
+      if (dataOfVideoFromFirestore.found) {
+        console.log("dataOfVideoFromFirestore.found: true")
+        try {
+          const { data } = dataOfVideoFromFirestore
+          updateDeepseekResponse(data.deepseekResponse)
+          localStorage.setItem('totalText', JSON.stringify(data.totalText));
+          localStorage.setItem("dataSubtitles", JSON.stringify(subtitles));
+          localStorage.setItem('deepseekResponse', JSON.stringify(data.deepseekResponse));
+          setTranscript(data.subtitles)
+          return
+        } catch (error) {
+          console.error(`Error al intentar obtener de firestore la info del videoId ${videoId}`, error);
+        }
+      }
+    }
+
+
     if (videoId) {
+      getDataFromFirestore()
       fetchData();
     }
   }, [videoId]);

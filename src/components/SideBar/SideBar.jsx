@@ -6,7 +6,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faLanguage, faClipboardQuestion, faBookOpen, faSpellCheck } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faLanguage, faClipboardQuestion, faBookOpen, faSpellCheck, faStar, faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 
@@ -55,19 +55,6 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                 <p className="text-base">Summary</p>
               </div>
 
-              <div
-                className="flex w-full h-auto flex-row justify-start items-center"
-                onClick={() => handleGoTo("/translations")}
-              >
-                <div className="w-[50px] flex justify-start">
-                  <FontAwesomeIcon
-                    icon={faLanguage}
-
-                    className={`mr-[18px] text-[20px]`}
-                  />
-                </div>
-                <p className="text-base">Translations</p>
-              </div>
 
               <div
                 className="flex w-full h-auto flex-row justify-start items-center"
@@ -84,6 +71,46 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
 
               <div
                 className="flex w-full h-auto flex-row justify-start items-center"
+                onClick={() => handleGoTo("/main-points")}
+              >
+                <div className="w-[50px] flex justify-start">
+                  <FontAwesomeIcon
+                    icon={faStar}
+                    className={`mr-[18px] text-[20px]`}
+                  />
+                </div>
+                <p className="text-base">Main Points</p>
+              </div>
+
+              <div
+                className="flex w-full h-auto flex-row justify-start items-center"
+                onClick={() => handleGoTo("/true-or-false")}
+              >
+                <div className="w-[50px] flex justify-start">
+                  <FontAwesomeIcon
+                    icon={faSquareCheck}
+                    className={`mr-[18px] text-[20px]`}
+                  />
+                </div>
+                <p className="text-base">True or False</p>
+              </div>
+
+              <div
+                className="flex w-full h-auto flex-row justify-start items-center"
+                onClick={() => handleGoTo("/translations")}
+              >
+                <div className="w-[50px] flex justify-start">
+                  <FontAwesomeIcon
+                    icon={faLanguage}
+
+                    className={`mr-[18px] text-[20px]`}
+                  />
+                </div>
+                <p className="text-base">Translations</p>
+              </div>
+
+              <div
+                className="flex w-full h-auto flex-row justify-start items-center"
                 onClick={() => handleGoTo("/")}
               >
                 <div className="w-[50px] flex justify-start">
@@ -92,7 +119,7 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
                     className={`mr-[18px] text-[20px]`}
                   />
                 </div>
-                <p className="text-base">Words</p>
+                <p className="text-base">Definitions</p>
               </div>
 
             </div>

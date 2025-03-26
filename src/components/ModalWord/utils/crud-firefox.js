@@ -1,8 +1,7 @@
 import { db } from "../../../../firebase";
-import { collection, addDoc, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
 
 const saveTranslation = async (payload) => {
-  console.log(payload)
   try {
     const docRef = await addDoc(collection(db, "translations"), payload);
     console.log("Document written with ID: ", docRef.id);
@@ -11,7 +10,6 @@ const saveTranslation = async (payload) => {
     console.error("Error adding document: ", e);
   }
 };
-
 
 // Lista documentos de una colección específica
 const getTranslations = async () => {
@@ -51,8 +49,9 @@ const deleteTranslation = async (itemId) => {
   }
 };
 
+
 export {
   saveTranslation,
   getTranslations,
-  deleteTranslation
+  deleteTranslation,
 }

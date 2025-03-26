@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 const Questions = ({ totalQuestions, currentQuestion, multiple_choice, onNext, showReference, optionSelected, onSelectOption, lastQuestion }) => {
   return (
     <>
-      <div className="questions-and-answer w-full h-[45%] flex flex-col justify-center items-start gap-4 p-6">
+      <div className="questions-and-answer w-full h-[35%] flex flex-col justify-center items-start gap-4 p-6">
         <p className="number-question text-base text-gray-400">
           {`${currentQuestion + 1} of ${totalQuestions}`}
         </p>
@@ -61,7 +61,7 @@ const Questions = ({ totalQuestions, currentQuestion, multiple_choice, onNext, s
       {optionSelected !== null
         &&
         <div
-          className="absolute bottom-[10%] right-[10%] flex justify-end items-center gap-2 "
+          className="w-full flex justify-end items-center gap-2 pr-12 mt-6"
           onClick={onNext}
         >
           {currentQuestion !== lastQuestion

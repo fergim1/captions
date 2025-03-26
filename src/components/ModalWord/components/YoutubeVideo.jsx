@@ -24,6 +24,8 @@ export const YouTubeVideo = ({
 
   const [valueSlider, setValueSlider] = useState(0)
   const [showValueSlider, setShowValueSlider] = useState(false)
+  const [muted, seTmuted] = useState(false)
+  const [openSideBar, setOpenSideBar] = useState(false)
 
 
   useEffect(() => {
@@ -40,7 +42,6 @@ export const YouTubeVideo = ({
     localStorage.setItem('currentSegment', JSON.stringify(segment));
     localStorage.setItem('current', JSON.stringify(playerRef.current.getCurrentTime()));
   }
-
 
   const handleProgress = (state) => {
     if (!transcript) return
@@ -98,8 +99,6 @@ export const YouTubeVideo = ({
 
   }
 
-  const [muted, seTmuted] = useState(false)
-
   const handleMuted = () => {
     seTmuted(prev => !prev)
   }
@@ -111,8 +110,6 @@ export const YouTubeVideo = ({
   const handleEnd = () => {
     setShowValueSlider(false)
   }
-
-  const [openSideBar, setOpenSideBar] = useState(false)
 
   const handleSideBar = () => {
     setOpenSideBar(true)

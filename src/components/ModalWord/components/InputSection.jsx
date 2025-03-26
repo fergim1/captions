@@ -19,7 +19,8 @@ export const InputSection = ({ setVideoId }) => {
     if (!link) return
     event.preventDefault();
     const videoIdFromLink = getYouTubeVideoId(link)
-    localStorage.setItem('videoId', JSON.stringify(videoIdFromLink));
+    localStorage.setItem("videoId", videoIdFromLink);
+    console.log(`videoId guardado en localStorage : ${videoIdFromLink}`)
     setVideoId(videoIdFromLink)
   };
 
