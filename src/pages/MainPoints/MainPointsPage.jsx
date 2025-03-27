@@ -59,9 +59,9 @@ const MainPointsPage = () => {
       <ButtonClose />
       {
         mainPoints.map((point, index) => (
-          <div key={index} className="flex flex-col justify-start items-center p-6">
-            <p className="text-3xl font-bold">{index + 1}</p>
-            <p className="text-xl text-start border-t-2 border-white mt-4">{point}</p>
+          <div key={index} className="flex flex-col justify-start items-center pr-6 pl-6 pt-6">
+            <p className="text-2xl font-bold">{index + 1}</p>
+            <p className="text-base text-start border-t-2 border-white mt-4">{point}</p>
           </div>
         ))
       }
