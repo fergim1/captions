@@ -107,15 +107,9 @@ const getDeepseekResponseFromFirestore = async (videoId) => {
   try {
     const q = query(collection(db, "videos"), where("videoId", "==", videoId));
     const querySnapshot = await getDocs(q);
-    console.log(querySnapshot)
-    let documentos = await getDocs(collection(db, "videos"));
-
-    console.log(documentos)
 
     if (!querySnapshot.empty) {
       const data = querySnapshot.docs[0].data();
-      console.log("data del video cargado desde firestore")
-      console.log(data)
       return data?.deepseekResponse || null;
     } else {
       console.warn(`No se encontró documento con videoId: ${videoId}`);

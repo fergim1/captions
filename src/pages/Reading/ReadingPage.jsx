@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
 import { deepseekResponse as deepseekResponseStore } from "../../stores/deepseekStore";
-// import { collection, query, where, getDocs } from "firebase/firestore";
-// import { db } from "../../../firebase";
 import ButtonClose from "@/components/ButtonClose/ButtonClose";
 import { getDeepseekResponseFromFirestore } from "@/utils/utils";
+import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
 const ReadingPage = () => {
   const storeValue = useStore(deepseekResponseStore);
@@ -72,7 +71,7 @@ const ReadingPage = () => {
                 {paragraph}
               </p>
             ))
-            : <p className="text-gray-400 text-center">Cargando resumen...</p>}
+            : <LoadingSpinner />}
         </div>
       </div>
     </div>

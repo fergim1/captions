@@ -6,6 +6,7 @@ import Questions from "./components/Questions";
 import Result from "./components/Result";
 import ButtonClose from "@/components/ButtonClose/ButtonClose";
 import { getDeepseekResponseFromFirestore } from "@/utils/utils";
+import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 
 const QuestionsPage = () => {
   const storeValue = useStore(deepseekResponseStore);
@@ -103,7 +104,7 @@ const QuestionsPage = () => {
           correctAnswers={correctAnswers}
         />
       ) : (
-        <p className="text-gray-400 text-center mt-10">Cargando preguntas...</p>
+        <LoadingSpinner />
       )}
     </div>
   );
