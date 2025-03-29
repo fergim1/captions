@@ -1,23 +1,29 @@
 
-import GoogleTranslateLibrary from "./components/GoogleTranslateLibrary";
-// import { GoogleTranslation } from "./components/GoogleTranslation";
+// import GoogleTranslateLibrary from "./components/GoogleTranslateLibrary";
+import { GoogleTranslation } from "./components/GoogleTranslation";
 // import { OxfordDefinitions } from "./components/OxfordDefinitions";
 // import data from "./../../fakeRespOxford.json"
 
-export const ModalWord = ({ word, setModalVisible }) => {
+export const ModalWord = ({ modalVisible, setModalVisible, word, videoId }) => {
 
 
   return (
-    <div className="modal-word" onClick={() => setModalVisible(false)}  >
+    // <div onClick={() => setModalVisible(false)}  >
 
 
-      {/* <GoogleTranslation word={word} /> */}
-      <GoogleTranslateLibrary word={word} setModalVisible={setModalVisible} />
-      {/* <OxfordDefinitions word="ace"  /> */}
+    <GoogleTranslation
+      // <GoogleTranslateLibrary
+      modalVisible={modalVisible}
+      setModalVisible={setModalVisible}
+      word={word}
+      videoId={videoId}
+
+    />
+    // {/* <OxfordDefinitions word="ace"  /> */}
 
 
 
-    </div>
+    // </div>
 
 
   );

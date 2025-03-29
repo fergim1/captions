@@ -5,12 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
-import { ToastAction } from "@/components/ui/toast"
 import { Separator } from "@/components/ui/separator"
 
 
 
-const GoogleTranslateLibrary = ({ word, setModalVisible }) => {
+const GoogleTranslateLibrary = ({ word, setModalVisible, videoId }) => {
   const [translatedText, setTranslatedText] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -74,7 +73,7 @@ const GoogleTranslateLibrary = ({ word, setModalVisible }) => {
     if (!translatedText) return
 
     const payload = {
-      videoId: "Agregar id del Video",
+      videoId,
       titleVideo: "Agregar titulo",
       original: word,
       translated: translatedText,

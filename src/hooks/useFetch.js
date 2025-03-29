@@ -16,13 +16,13 @@ export const useFetch = ({ word, url }) => {
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          throw new Error(`Error ${response.status}: No se pudo obtener la palabra.`);
+          throw new Error(`Error ${response.status}: No se pudo obtener la traducción.`);
         }
         const result = await response.json();
         setData(result);
       }
       catch (err) {
-        setError(err.message);
+        setError(`❌ ${err.message}`);
       }
       finally {
         setLoading(false);

@@ -55,7 +55,6 @@ function App () {
     if (!playing) {
       setModalVisible(true)
       setWordToTranslate(item.text)
-      console.log(index)
       setIndexLiTranslated(index)
       return
     }
@@ -102,10 +101,12 @@ function App () {
 
       }
 
-      {modalVisible &&
+      {modalVisible && videoId &&
         <ModalWord
           word={wordToTranslate}
           setModalVisible={setModalVisible}
+          videoId={videoId}
+          modalVisible={modalVisible}
         />
       }
     </div>
