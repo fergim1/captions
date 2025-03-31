@@ -47,7 +47,7 @@ const DrawerHeader = ({
   ...props
 }) => (
   <div
-    className={cn("grid gap-4 pt-8 pr-4 pb-4 pl-4 text-center", className)}
+    className={cn("grid gap-4 pt-8 pr-4 pb-2 pl-4 text-center", className)}
     {...props} />
 )
 DrawerHeader.displayName = "DrawerHeader"
@@ -71,7 +71,7 @@ DrawerTitle.displayName = DrawerPrimitive.Title.displayName
 const DrawerDescription = React.forwardRef(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={cn("text-lg text-muted-foreground", className)}
+    className={cn("text-base text-muted-foreground", className)}
     {...props} />
 ))
 DrawerDescription.displayName = DrawerPrimitive.Description.displayName

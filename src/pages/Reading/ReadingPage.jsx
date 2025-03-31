@@ -4,6 +4,7 @@ import { deepseekResponse as deepseekResponseStore } from "../../stores/deepseek
 import ButtonClose from "@/components/ButtonClose/ButtonClose";
 import { getDeepseekResponseFromFirestore } from "@/utils/utils";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
+import TextSelectionHandler from "@/components/TextSelectionHandler/TextSelectionHandler";
 
 const ReadingPage = () => {
   const storeValue = useStore(deepseekResponseStore);
@@ -60,19 +61,21 @@ const ReadingPage = () => {
       <ButtonClose />
       <p className="text-3xl text-center text-white mb-4">Summary</p>
       <div className="w-full max-w-2xl p-4">
-        <div className="space-y-6">
-          {summary
-            ? summary.trim().split(/\n\s*\n/).map((paragraph, index) => (
-              <p
-                key={index}
-                className="font-inter text-base leading-relaxed text-gray-300 text-justify"
-                style={{ lineHeight: "1.8" }}
-              >
-                {paragraph}
-              </p>
-            ))
-            : <LoadingSpinner />}
-        </div>
+        <TextSelectionHandler>
+          <div className="space-y-6">
+            {summary
+              ? summary.trim().split(/\n\s*\n/).map((paragraph, index) => (
+                <p
+                  key={index}
+                  className="font-inter text-base leading-relaxed text-gray-300 text-justify"
+                  style={{ lineHeight: "1.8" }}
+                >
+                  {paragraph}
+                </p>
+              ))
+              : <LoadingSpinner />}
+          </div>
+        </TextSelectionHandler>
       </div>
     </div>
   );

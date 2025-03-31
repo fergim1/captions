@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 
-export const useFetch = ({ word, url }) => {
+export const useFetch = ({ selectedText, url }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // console.log({})
+  console.log(loading)
+  console.log(data)
+
   useEffect(() => {
-    if (!word) return console.log(`En useFetch no llega parametro "word"`);
+    if (!selectedText) return console.log(`En useFetch no llega parametro "word"`);
     if (!url) return console.log(`En useFetch no llega parametro "url"`);
 
     const fetchData = async () => {
@@ -30,7 +34,7 @@ export const useFetch = ({ word, url }) => {
     };
 
     fetchData();
-  }, [word]);
+  }, [selectedText]);
 
   return { data, loading, error };
 };
