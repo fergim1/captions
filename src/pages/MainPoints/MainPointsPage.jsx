@@ -5,6 +5,7 @@ import { deepseekResponse as deepseekResponseStore } from "../../stores/deepseek
 
 import ButtonClose from "@/components/ButtonClose/ButtonClose"
 import { getDeepseekResponseFromFirestore } from "@/utils/utils";
+import TextSelectionHandler from "@/components/TextSelectionHandler/TextSelectionHandler";
 
 const MainPointsPage = () => {
   const storeValue = useStore(deepseekResponseStore);
@@ -56,16 +57,17 @@ const MainPointsPage = () => {
 
   return (
     <div className="wrapper-content bg-black w-full h-auto flex flex-col justify-start items-center">
-      <ButtonClose />
-      {
-        mainPoints.map((point, index) => (
-          <div key={index} className="flex flex-col justify-start items-center pr-6 pl-6 pt-6">
-            <p className="text-2xl font-bold">{index + 1}</p>
-            <p className="text-base text-start border-t-2 border-white mt-4">{point}</p>
-          </div>
-        ))
-      }
-
+      <TextSelectionHandler>
+        <ButtonClose />
+        {
+          mainPoints.map((point, index) => (
+            <div key={index} className="flex flex-col justify-start items-center pr-6 pl-6 pt-6">
+              <p className="text-2xl font-bold">{index + 1}</p>
+              <p className="text-base text-start border-t-2 border-white mt-4">{point}</p>
+            </div>
+          ))
+        }
+      </TextSelectionHandler>
     </div>
   )
 }

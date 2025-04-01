@@ -104,3 +104,7 @@ export const processDictionaryData = (apiResponse) => {
 
   return result;
 };
+
+export const hasMoreSixWords = (texto) => {
+  return texto.trim().split(/\s+/).length > 6;
+};

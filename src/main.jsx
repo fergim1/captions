@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { ThemeProvider } from './components/Theme/ThemeProvider.jsx';
 import "./index.css"
 import { Toaster } from "@/components/ui/toaster"
+import RedirectOnReload from './components/RedirectOnReload/RedirectOnReload.jsx';
 
 // Lazy load pages
 const VideoPage = lazy(() => import('./pages/Video/VideoPage.jsx'))
@@ -15,12 +16,11 @@ const WordsPage = lazy(() => import('./pages/Words/WordsPage.jsx'))
 const MainPointsPage = lazy(() => import('./pages/MainPoints/MainPointsPage.jsx'))
 const TrueOrFalsePage = lazy(() => import('./pages/TrueOrFalsePage/TrueOrFalsePage.jsx'))
 
-// TODO: implementar lazy and ¿suspense?
-
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme" >
       <BrowserRouter>
+        <RedirectOnReload />
         <Suspense fallback={<div className="p-4">Loading...</div>}>
           <Routes>
             <Route index element={<App />} />

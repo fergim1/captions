@@ -56,5 +56,5 @@ export const useTextSelection = () => {
     }
   }, []);
 
-  return { selectedText, selectionType };
+  return { selectedText, selectionType, setSelectedText, setSelectionType };
 };

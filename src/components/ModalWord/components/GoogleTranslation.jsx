@@ -1,13 +1,11 @@
 import { useFetch } from "../../../hooks/useFetch";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
@@ -21,7 +19,7 @@ export const GoogleTranslation = ({ modalVisible, setModalVisible, word, videoId
   const language = "es"
   const url = `${import.meta.env.VITE_URL_SERVER}/api/google?word=${word}&language=${language}`;
 
-  const { data, loading, error } = useFetch({ word, url });
+  const { data, loading, error } = useFetch(word, url);
   const { toast } = useToast()
 
 
@@ -30,7 +28,7 @@ export const GoogleTranslation = ({ modalVisible, setModalVisible, word, videoId
 
     const payload = {
       videoId,
-      titleVideo: "Agregar titulo",
+      titleVideo: "Pendiente agregar titulo del video",
       original: word,
       translated: data,
       language: "es",
@@ -56,7 +54,9 @@ export const GoogleTranslation = ({ modalVisible, setModalVisible, word, videoId
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle>{loading ? <Skeleton className="h-3 w-[90%]" /> : word}</DrawerTitle>
+            <DrawerTitle>
+              {loading ? <Skeleton className="h-3 w-[90%]" /> : word}
+            </DrawerTitle>
             <Separator />
             <DrawerDescription>
               {loading ? <Skeleton className="h-3 w-[90%]" /> : data}

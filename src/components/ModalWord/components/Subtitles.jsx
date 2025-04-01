@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { fetchSubtitles, formatTime, getVideoByVideoIdFromFirestore, saveDataVideoToFirestore } from "../../../utils/utils";
 import Loading from "@/components/Loading/Loading";
 import { updateDeepseekResponse } from "../../../stores/deepseekStore"
+import TextSelectionHandler from "@/components/TextSelectionHandler/TextSelectionHandler";
 
 export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, indexLiTranslated }) => {
   const [loading, setLoading] = useState(false);
@@ -71,38 +72,40 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
     <div className="wrapper-subtitles">
       {error && <p className="subtitles-error">Ocurrio un error al intentar cargar los subtitulos, recuerda que solo puedes cargar videos en ingles</p>}
       {loading && <Loading />}
-      {transcript && <div className='caja-subtitles'
-        ref={originalBoxRef}
-      >
+      <TextSelectionHandler>
+        {transcript && <div className='caja-subtitles'
+          ref={originalBoxRef}
+        >
 
-        <ul className='ul-subtitles'>
-          {transcript.map((item, index) => (
-            <li
-              className='li-subtitles'
-              key={index}
-              id={`subtitle-${index}`}
-              onClick={() => handleSeek(item, index)}
-              style={{
-                backgroundColor: index === currentSegmentIndex ? "rgb(37 37 37)" : "transparent",
-                border: index === indexLiTranslated ? "1px solid #8b8b8b" : "transparent",
+          <ul className='ul-subtitles'>
+            {transcript.map((item, index) => (
+              <li
+                className='li-subtitles'
+                key={index}
+                id={`subtitle-${index}`}
+                onClick={() => handleSeek(item, index)}
+                style={{
+                  backgroundColor: index === currentSegmentIndex ? "rgb(37 37 37)" : "transparent",
+                  border: index === indexLiTranslated ? "1px solid #8b8b8b" : "transparent",
 
-              }}
-            >
-              <code className='time-subtitle'> {formatTime(item.start)}</code>
-              <div className='text-wrapper'>
-                <span
-                  className='text-subtitle'
+                }}
+              >
+                <code className='time-subtitle'> {formatTime(item.start)}</code>
+                <div className='text-wrapper'>
+                  <span
+                    className='text-subtitle'
 
-                >
-                  {item.text}
-                </span>
+                  >
+                    {item.text}
+                  </span>
 
-              </div>
-            </li>
-          ))}
-        </ul>
+                </div>
+              </li>
+            ))}
+          </ul>
 
-      </div>}
+        </div>}
+      </TextSelectionHandler>
 
     </div >
   )

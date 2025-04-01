@@ -128,10 +128,10 @@ export const YouTubeVideo = ({
           controls={false}
           onProgress={handleProgress}
           progressInterval={200}
-          onSeek={e => console.log('onSeek', e)}
+          // onSeek={e => console.log('onSeek', e)}
           width='100%'
           height='100%'
-          onDuration={(e) => console.log("Duracion del video en segundos", e)}
+          // onDuration={(e) => console.log("Duracion del video en segundos", e)}
           muted={muted}
         />
         {showValueSlider && <div>
