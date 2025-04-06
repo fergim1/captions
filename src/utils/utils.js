@@ -26,11 +26,11 @@ function getYouTubeVideoId (url) {
   }
 }
 
-const fetchSubtitles = async (videoId, language = "en") => {
+const fetchSubtitles = async (videoId, language = "en", englishLevel) => {
   if (!videoId) return null;
 
   try {
-    const response = await fetch(`${url_server}/api/transcript?videoId=${videoId}`);
+    const response = await fetch(`${url_server}/api/transcript?videoId=${videoId}&englishLevel=${englishLevel}`);
     if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
 
     const data = await response.json();
@@ -65,23 +65,28 @@ const formatTime = (seconds) => {
 const saveDataVideoToFirestore = async (payload) => {
   try {
     const docRef = await addDoc(collection(db, "videos"), payload);
-    console.log("Document written with ID: ", docRef.id);
+    console.log(`DocumentId saved in firestore: ${docRef.id}, videoId: ${payload.videoId}, englishLevel: ${payload.englishLevel}`);
     return docRef.id
   } catch (e) {
     console.error("Error adding document: ", e);
   }
 };
 
-const getVideoByVideoIdFromFirestore = async (videoId) => {
+
+const getVideoByVideoIdFromFirestore = async (videoId, englishLevel) => {
   try {
     const videosRef = collection(db, "videos");
-    const q = query(videosRef, where("videoId", "==", videoId));
+    const q = query(
+      videosRef,
+      where("videoId", "==", videoId),
+      where("englishLevel", "==", englishLevel)
+    );
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
       return {
         found: false,
-        message: `No se encontró ningún documento con videoId "${videoId}"`,
+        message: `No se encontró ningún documento con videoId "${videoId}" y englishLevel "${englishLevel}"`,
       };
     }
 

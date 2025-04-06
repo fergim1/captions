@@ -64,12 +64,14 @@ function App () {
     }
   };
 
+  const [englishLevel, setEnglishLevel] = useState("")
+
 
 
   return (
     <div className="App">
 
-      {!videoId && <InputSection setVideoId={setVideoId} />}
+      {!videoId && <InputSection setVideoId={setVideoId} englishLevel={englishLevel} setEnglishLevel={setEnglishLevel} />}
 
       {videoId &&
         < YouTubeVideo
@@ -97,6 +99,7 @@ function App () {
           handleSeek={handleSeek}
           currentSegmentIndex={currentSegmentIndex}
           indexLiTranslated={indexLiTranslated}
+          englishLevel={englishLevel}
         />
 
       }

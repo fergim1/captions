@@ -111,7 +111,7 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
 
               <div
                 className="flex w-full h-auto flex-row justify-start items-center"
-                onClick={() => handleGoTo("/")}
+                onClick={() => handleGoTo("/definitions")}
               >
                 <div className="w-[50px] flex justify-start">
                   <FontAwesomeIcon

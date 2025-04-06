@@ -189,6 +189,7 @@ const TextSelectionHandler = ({ children }) => {
     setSelectionType(null)
   }
 
+
   return (
     <div style={{ userSelect: 'text', cursor: 'text' }}>
       {children}
@@ -202,15 +203,17 @@ const TextSelectionHandler = ({ children }) => {
                     <div className='flex flex-row w-full justify-center items-center gap-4'>
                       {loadingDictionaryApi && <Skeleton className="h-3 w-[90%]" />}
                       <p className='uppercase text-lg'>{dictionaryApiData?.word}</p>
-                      <button
-                        onClick={() => playAudio(dictionaryApiData?.audio)}
-                        className="text-gray-600 hover:text-gray-400 text-lg"
-                        title="Play pronunciation"
-                      >
-                        <FontAwesomeIcon icon={faVolumeHigh} />
-                      </button>
+                      {dictionaryApiData?.audio &&
+                        <button
+                          onClick={() => playAudio(dictionaryApiData?.audio)}
+                          className="text-gray-600 hover:text-gray-400 text-lg"
+                          title="Play pronunciation"
+                        >
+                          <FontAwesomeIcon icon={faVolumeHigh} />
+                        </button>
+                      }
                       <p className="text-gray-600 text-lg">
-                        {dictionaryApiData && dictionaryApiData?.phonetic}
+                        {dictionaryApiData?.phonetic && dictionaryApiData?.phonetic}
                       </p>
 
                     </div>

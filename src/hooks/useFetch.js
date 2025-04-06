@@ -16,7 +16,7 @@ export const useFetch = (selectedText, url) => {
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          throw new Error(`Error ${response.status}: No se pudo obtener la traducción.`);
+          throw new Error(`No se pudo obtener la traducción.`);
         }
         const result = await response.json();
         setData(result);
