@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye, faTrash, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import ButtonClose from "@/components/ButtonClose/ButtonClose";
+import ModalDetailsDefinition from "./components/ModalDetailsDefinition";
 
 
 const DefinitionsPage = () => {
   const [definitions, setDefinitions] = useState(null)
   const [showTranslation, setShowTranslation] = useState([])
+  const [modalVisible, setModalVisible] = useState(false)
+  const [wordDetails, setWordDetails] = useState({})
 
   function sortByMostRecent (data) {
     return data.sort((a, b) => {
@@ -36,8 +39,9 @@ const DefinitionsPage = () => {
     new Audio(url).play();
   }, []);
 
-  const handleShowMore = (word) => {
-    console.log(word)
+  const handleShowMoreDetails = (definition) => {
+    setWordDetails(definition)
+    setModalVisible(true)
   }
 
   const handleShowTranslation = (id) => {
@@ -53,12 +57,13 @@ const DefinitionsPage = () => {
 
   }
 
+
   console.log(definitions)
   return (
     <div className="definitions-page">
       <ButtonClose />
       {!definitions
-        ? <p>Not Found</p>
+        ? <p>There are no saved words</p>
         : <div className="wrapper-cards grid grid-cols-2 w-full flex flex-row gap-2 p-2">
           {definitions?.map((definition, index) => (
             <div
@@ -91,8 +96,6 @@ const DefinitionsPage = () => {
                   <>
                     <button
                       onClick={() => handleShowTranslation(definition.idDocument)}
-
-                      title="Play pronunciation"
                     >
                       {showTranslation.includes(definition.idDocument)
                         ? <FontAwesomeIcon icon={faEye} className="text-white text-sm" />
@@ -103,7 +106,7 @@ const DefinitionsPage = () => {
                     {
                       showTranslation.includes(definition.idDocument)
                         ? <p className='blur-none text-gray-300 text-lg px-2 '>{definition.translated}</p>
-                        : <p className='blur-sm text-transparent text-lg bg-gray-600 rounded px-2 opacity-15'>{definition.translated}</p>
+                        : <p className='blur-sm text-transparent text-lg bg-gray-600 rounded px-2 opacity-25'>{definition.translated}</p>
                     }
                   </>
                 }
@@ -115,7 +118,7 @@ const DefinitionsPage = () => {
                 <Button
                   variant="outline"
                   className="w-[85%]"
-                  onClick={() => handleShowMore(definition.word)}
+                  onClick={() => handleShowMoreDetails(definition)}
                 >
                   Show More
                 </Button>
@@ -125,7 +128,14 @@ const DefinitionsPage = () => {
           ))}
         </div>
       }
-
+      {modalVisible &&
+        <ModalDetailsDefinition
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          wordDetails={wordDetails}
+          definitions={definitions}
+          setDefinitions={setDefinitions}
+        />}
     </div>
   )
 }
