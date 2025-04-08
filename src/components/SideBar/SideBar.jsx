@@ -18,110 +18,74 @@ const SideBar = ({ openSideBar, setOpenSideBar }) => {
     navigate(path)
     setOpenSideBar(false)
   }
+
+  const menuValues = [
+    {
+      text: "Video",
+      path: "/",
+      icon: faYoutube
+    },
+    {
+      text: "Summary",
+      path: "/reading",
+      icon: faBookOpen
+    },
+    {
+      text: "Questions",
+      path: "/questions",
+      icon: faClipboardQuestion
+    },
+    {
+      text: "Main Points",
+      path: "/main-points",
+      icon: faStar
+    },
+    {
+      text: "True or False",
+      path: "/true-or-false",
+      icon: faSquareCheck
+    },
+    {
+      text: "Translations",
+      path: "/translations",
+      icon: faLanguage
+    },
+    {
+      text: "Definitions",
+      path: "/definitions",
+      icon: faSpellCheck
+    }
+
+
+
+  ]
+
   return (
     <Sheet open={openSideBar} onOpenChange={setOpenSideBar}>
-      <SheetContent side="right">
+      <SheetContent side="customSideBar">
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
           <SheetDescription>
 
             <div className="wrapper-icons text-white flex w-full h-auto flex-col justify-start items-center pl-2 mt-[60px] gap-8">
+              {
+                menuValues.map((value, index) => (
+                  <div
+                    key={index}
+                    className="flex w-full h-auto flex-row justify-start items-center  border-b border-white pb-2 mb-1"
+                    onClick={() => handleGoTo(value.path)}
+                  >
+                    <div className="w-[50px] flex justify-start">
+                      <FontAwesomeIcon
+                        icon={value.icon}
 
-              <div
-                className="flex w-full h-auto flex-row justify-start items-center"
-                onClick={() => handleGoTo("/")}
-              >
-                <div className="w-[50px] flex justify-start">
-                  <FontAwesomeIcon
-                    icon={faYoutube}
-
-                    className={`mr-[18px] text-[20px]`}
-                  />
-                </div>
-                <p className="text-base">Video</p>
-              </div>
-
-              <div
-                className="flex w-full h-auto flex-row justify-start items-center"
-                onClick={() => handleGoTo("/reading")}
-              >
-                <div className="w-[50px] flex justify-start">
-                  <FontAwesomeIcon
-                    icon={faBookOpen}
-
-                    className={`mr-[18px] text-[20px]`}
-                  />
-                </div>
-                <p className="text-base">Summary</p>
-              </div>
-
-
-              <div
-                className="flex w-full h-auto flex-row justify-start items-center"
-                onClick={() => handleGoTo("/questions")}
-              >
-                <div className="w-[50px] flex justify-start">
-                  <FontAwesomeIcon
-                    icon={faClipboardQuestion}
-                    className={`mr-[18px] text-[20px]`}
-                  />
-                </div>
-                <p className="text-base">Questions</p>
-              </div>
-
-              <div
-                className="flex w-full h-auto flex-row justify-start items-center"
-                onClick={() => handleGoTo("/main-points")}
-              >
-                <div className="w-[50px] flex justify-start">
-                  <FontAwesomeIcon
-                    icon={faStar}
-                    className={`mr-[18px] text-[20px]`}
-                  />
-                </div>
-                <p className="text-base">Main Points</p>
-              </div>
-
-              <div
-                className="flex w-full h-auto flex-row justify-start items-center"
-                onClick={() => handleGoTo("/true-or-false")}
-              >
-                <div className="w-[50px] flex justify-start">
-                  <FontAwesomeIcon
-                    icon={faSquareCheck}
-                    className={`mr-[18px] text-[20px]`}
-                  />
-                </div>
-                <p className="text-base">True or False</p>
-              </div>
-
-              <div
-                className="flex w-full h-auto flex-row justify-start items-center"
-                onClick={() => handleGoTo("/translations")}
-              >
-                <div className="w-[50px] flex justify-start">
-                  <FontAwesomeIcon
-                    icon={faLanguage}
-
-                    className={`mr-[18px] text-[20px]`}
-                  />
-                </div>
-                <p className="text-base">Translations</p>
-              </div>
-
-              <div
-                className="flex w-full h-auto flex-row justify-start items-center"
-                onClick={() => handleGoTo("/definitions")}
-              >
-                <div className="w-[50px] flex justify-start">
-                  <FontAwesomeIcon
-                    icon={faSpellCheck}
-                    className={`mr-[18px] text-[20px]`}
-                  />
-                </div>
-                <p className="text-base">Definitions</p>
-              </div>
-
+                        className={`mr-[18px] text-[20px]`}
+                      />
+                    </div>
+                    <p className="text-base">{value.text}</p>
+                  </div>
+                ))
+              }
             </div>
 
           </SheetDescription>
