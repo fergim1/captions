@@ -78,14 +78,14 @@ const DefinitionsPage = () => {
                 {definition.dataDictionaryApi.audio &&
                   <button
                     onClick={() => playAudio(definition.dataDictionaryApi?.audio)}
-                    className="text-gray-600 hover:text-gray-400 text-lg"
+                    className="text-gray-500 hover:text-gray-400 text-lg"
                     title="Play pronunciation"
                   >
                     <FontAwesomeIcon icon={faVolumeHigh} />
                   </button>
                 }
                 {definition.dataDictionaryApi?.phonetic &&
-                  <p className="text-gray-600 text-base">
+                  <p className="text-gray-500 text-base">
                     {definition.dataDictionaryApi?.phonetic}
                   </p>
                 }
@@ -99,14 +99,14 @@ const DefinitionsPage = () => {
                     >
                       {showTranslation.includes(definition.idDocument)
                         ? <FontAwesomeIcon icon={faEye} className="text-white text-sm" />
-                        : <FontAwesomeIcon icon={faEyeSlash} className="text-gray-600 text-sm" />
+                        : <FontAwesomeIcon icon={faEyeSlash} className="text-gray-500 text-sm" />
                       }
 
                     </button>
                     {
                       showTranslation.includes(definition.idDocument)
                         ? <p className='blur-none text-gray-300 text-lg px-2 '>{definition.translated}</p>
-                        : <p className='blur-sm text-transparent text-lg bg-gray-600 rounded px-2 opacity-25'>{definition.translated}</p>
+                        : <p className='blur-sm text-transparent text-lg bg-gray-600 rounded px-2 opacity-30'>{definition.translated}</p>
                     }
                   </>
                 }
