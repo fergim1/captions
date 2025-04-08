@@ -76,7 +76,7 @@ const ModalDetailsDefinition = ({ modalVisible, setModalVisible, wordDetails, de
 
   return (
     <Card
-      className="card flex flex-col w-full h-[100vh] absolute right-0 bottom-0 top-0 left-0 p-0"
+      className="card border-none bg-black flex flex-col w-full h-auto absolute right-0 bottom-0 top-0 left-0 p-0"
     >
       <div
         className="button-close w-full flex justify-end items-center pr-[18px] pt-[18px]"
