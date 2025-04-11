@@ -5,6 +5,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faChevronRight, faCircleCheck, faCircleXmark, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 
 const Questions = ({ totalQuestions, currentQuestion, multiple_choice, onNext, showReference, optionSelected, onSelectOption, lastQuestion }) => {
@@ -68,7 +69,7 @@ const Questions = ({ totalQuestions, currentQuestion, multiple_choice, onNext, s
             ? <> <p>NEXT</p>
               <FontAwesomeIcon icon={faArrowRight} />
             </>
-            : <p>FINISH</p>
+            : <Button variant="secondary">FINISH</Button>
           }
         </div>
       }

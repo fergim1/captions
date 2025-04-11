@@ -101,6 +101,9 @@ const TrueOrFalsePage = () => {
         <Result
           totalQuestions={totalQuestions}
           correctAnswers={correctAnswers}
+          setQuizCompleted={setQuizCompleted}
+          setCurrentQuestion={setCurrentQuestion}
+          setOptionSelected={setOptionSelected}
         />
       ) : (
         <LoadingSpinner />

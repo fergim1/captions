@@ -5,6 +5,7 @@ import ButtonClose from "@/components/ButtonClose/ButtonClose";
 import { getDeepseekResponseFromFirestore } from "@/utils/utils";
 import LoadingSpinner from "@/components/Loading/LoadingSpinner";
 import TextSelectionHandler from "@/components/TextSelectionHandler/TextSelectionHandler";
+// import ButtonOpenMenu from "@/components/ButtonOpenMenu/ButtonOpenMenu";
 
 const ReadingPage = () => {
   const storeValue = useStore(deepseekResponseStore);
@@ -59,6 +60,7 @@ const ReadingPage = () => {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center p-2">
       <ButtonClose />
+      {/* <ButtonOpenMenu /> */}
       <p className="text-3xl text-center text-white mb-4">Summary</p>
       <div className="w-full max-w-2xl p-4">
         <TextSelectionHandler>

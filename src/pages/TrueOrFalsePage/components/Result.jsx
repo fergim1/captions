@@ -1,14 +1,21 @@
-const Result = ({ totalQuestions, correctAnswers }) => {
+import { HitRateChart } from "@/components/HitRateChart/HitRateChart"
 
-  const hitRate = (correctAnswers / totalQuestions) * 100
+const Result = ({
+  totalQuestions,
+  correctAnswers,
+  setQuizCompleted,
+  setCurrentQuestion,
+  setOptionSelected
+}) => {
 
   return (
-    <div className="flex flex-col justify-center">
-      <p className="text-4xl mb-[40px] text-center">Result</p>
-      <p className="text-5xl mb-[10px] text-center">{Math.round(hitRate) + "%"}</p>
-      <p className="text-3xl mb-[10px] text-center"> {correctAnswers} of {totalQuestions}</p>
-      <p className="text-xl text-center">answered correctly</p>
-    </div>
+    <HitRateChart
+      correctAnswers={correctAnswers}
+      totalQuestions={totalQuestions}
+      setQuizCompleted={setQuizCompleted}
+      setCurrentQuestion={setCurrentQuestion}
+      setOptionSelected={setOptionSelected}
+    />
   )
 }
 

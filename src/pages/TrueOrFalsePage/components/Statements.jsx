@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsDown, faThumbsUp, faArrowRight, faXmark, faCheck, faCircleCheck } from "@fortawesome/free-solid-svg-icons"
+import { Button } from "@/components/ui/button";
 
 const Statements = ({ totalQuestions, currentQuestion, trueOrFalse, onNext, showReference, optionSelected, onSelectOption, lastQuestion }) => {
 
@@ -83,7 +84,7 @@ const Statements = ({ totalQuestions, currentQuestion, trueOrFalse, onNext, show
               ? <> <p>NEXT</p>
                 <FontAwesomeIcon icon={faArrowRight} />
               </>
-              : <p>FINISH</p>
+              : <Button variant="secondary">FINISH</Button>
             }
           </div>
         }

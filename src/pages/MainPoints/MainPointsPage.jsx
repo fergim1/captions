@@ -88,24 +88,15 @@ const MainPointsPage = () => {
                       </CardContent>
                     </Card>
                   </div>
+                  <div className="py-4 text-center text-sm text-muted-foreground">
+                    Point {actualIndex} of {mainPoints.length}
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
             <CarouselPrevious prevIndex={prevIndex} />
             <CarouselNext nextIndex={nextIndex} />
-            <div className="py-4 text-center text-sm text-muted-foreground">
-              Point {actualIndex} of {mainPoints.length}
-            </div>
           </Carousel>
-
-          {/* {
-          mainPoints.map((point, index) => (
-            <div key={index} className="flex flex-col justify-start items-center pr-6 pl-6 pt-6">
-              <p className="text-2xl font-bold">{index + 1}</p>
-              <p className="text-base text-start border-t-2 border-white mt-4">{point}</p>
-            </div>
-          ))
-        } */}
         </div>
       </TextSelectionHandler>
     </div>
