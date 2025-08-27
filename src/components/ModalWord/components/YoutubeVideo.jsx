@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import YoutubePlayer from 'react-player/youtube';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faTrash, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark, faVolumeHigh, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faTrash, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark, faVolumeHigh, faBars, faX } from "@fortawesome/free-solid-svg-icons";
 import { Slider } from "@/components/ui/slider"
 import { formatTime } from '@/utils/utils';
 import SideBar from '../../SideBar/SideBar';
@@ -19,7 +19,8 @@ export const YouTubeVideo = ({
   currentTime,
   duration,
   setCurrentTime,
-  setIndexLiTranslated
+  setIndexLiTranslated,
+  summaryAndExercisesOK
 }) => {
 
   const [valueSlider, setValueSlider] = useState(0)
@@ -112,6 +113,7 @@ export const YouTubeVideo = ({
   }
 
   const handleSideBar = () => {
+    if(!summaryAndExercisesOK) return
     setOpenSideBar(true)
   }
 
@@ -182,9 +184,10 @@ export const YouTubeVideo = ({
 
           <button
             onClick={handleSideBar}
-            className={playing ? "text-[#8888]" : "text-white"}
+            className={playing  || !summaryAndExercisesOK ? "text-[#8888]" : "text-white"}
           >
-            <FontAwesomeIcon icon={faBars} />
+            { summaryAndExercisesOK ?  <FontAwesomeIcon icon={faBars} /> : <FontAwesomeIcon icon={faX} /> } 
+            
           </button>
         </div>
 

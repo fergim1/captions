@@ -3,14 +3,12 @@ import { fetchSubtitles, formatTime, getVideoByVideoIdFromFirestore, saveDataVid
 import Loading from "@/components/Loading/Loading";
 import { updateDeepseekResponse } from "../../../stores/deepseekStore"
 import TextSelectionHandler from "@/components/TextSelectionHandler/TextSelectionHandler";
+const url_server = import.meta.env.VITE_URL_SERVER;
 
-export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, indexLiTranslated, englishLevel }) => {
+export const Subtitles = ({ setSummaryAndExercisesOK, videoId, transcript, setTranscript, handleSeek, currentSegmentIndex, indexLiTranslated, englishLevel }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const originalBoxRef = useRef(null);
-
-
-  console.log(englishLevel)
 
   useEffect(() => {
     const subtitlesFromLocalStorage = localStorage.getItem('dataSubtitles');
@@ -21,32 +19,95 @@ export const Subtitles = ({ videoId, transcript, setTranscript, handleSeek, curr
       return;
     }
 
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetchSubtitles(videoId, 'en', englishLevel);
-        const { subtitles, totalText, deepseekResponse } = response
-        updateDeepseekResponse(deepseekResponse)
-        localStorage.setItem('totalText', JSON.stringify(totalText));
-        localStorage.setItem('deepseekResponse', JSON.stringify(deepseekResponse));
-        const dataVideoToSave = {
-          videoId,
-          englishLevel,
-          subtitles,
-          totalText,
-          deepseekResponse,
-          createdAt: new Date()
-        }
-        saveDataVideoToFirestore(dataVideoToSave)
-        setTranscript(subtitles);
-      } catch (err) {
-        setError(true);
-        console.error("Error fetching subtitles:", err);
-      } finally {
-        setLoading(false);
-      }
+    // fetchData viejo
+    // const fetchData = async () => {
+    //   setLoading(true);
+    //   setError(null);
+    //   try {
+    //     const response = await fetchSubtitles(videoId, 'en', englishLevel);
+    //     const { subtitles, totalText, deepseekResponse } = response
+    //     updateDeepseekResponse(deepseekResponse)
+    //     localStorage.setItem('totalText', JSON.stringify(totalText));
+    //     localStorage.setItem('deepseekResponse', JSON.stringify(deepseekResponse));
+    //     const dataVideoToSave = {
+    //       videoId,
+    //       englishLevel,
+    //       subtitles,
+    //       totalText,
+    //       deepseekResponse,
+    //       createdAt: new Date()
+    //     }
+    //     saveDataVideoToFirestore(dataVideoToSave)
+    //     setTranscript(subtitles);
+    //   } catch (err) {
+    //     setError(true);
+    //     console.error("Error fetching subtitles:", err);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
+
+  /////////////////////
+ // fetchData Nuevo
+ const fetchData = async () => {
+  setLoading(true);
+  setError(null);
+  try {
+    const response = await fetchSubtitles(videoId, 'en', englishLevel);
+    const { subtitles } = response;
+
+    const dataVideoToSave = {
+      videoId,
+      englishLevel,
+      subtitles,
+      createdAt: new Date()
     };
+    saveDataVideoToFirestore(dataVideoToSave);
+    setTranscript(subtitles);
+    setLoading(false);
+
+
+    if (response) {
+      // Iniciar el polling para obtener deepseekResponse
+      await pollForDeepseekData(videoId);
+    }
+  } catch (err) {
+    setError(true);
+    console.error("Error fetching subtitles:", err);
+  } finally {
+    setLoading(false);
+  }
+};
+
+// Función para realizar el polling
+const pollForDeepseekData = async (videoId) => {
+  const maxAttempts = 15; // Número máximo de intentos
+  const interval = 20000; // Intervalo entre intentos (en milisegundos)
+  let attempts = 0;
+
+  while (attempts < maxAttempts) {
+    try {
+      const resp = await fetch(`${url_server}/api/transcript/result?videoId=${videoId}`);
+      if (resp.ok) {
+        const deepseekResponse = await resp.json();
+        console.log("deepseekResponse", deepseekResponse);
+        updateDeepseekResponse(deepseekResponse);
+        localStorage.setItem('deepseekResponse', JSON.stringify(deepseekResponse));
+        setSummaryAndExercisesOK(true)
+        localStorage.setItem("summaryAndExercisesOK", true)
+        return; // Salir del bucle si los datos están listos
+      }
+    } catch (err) {
+      console.error("Error fetching Deepseek data:", err);
+    }
+
+    // Esperar antes del siguiente intento
+    await new Promise((resolve) => setTimeout(resolve, interval));
+    attempts++;
+  }
+
+  console.warn("Max attempts reached. Deepseek data not available.");
+};
 
     const getDataFromFirestore = async () => {
       const dataOfVideoFromFirestore = await getVideoByVideoIdFromFirestore(videoId, englishLevel)

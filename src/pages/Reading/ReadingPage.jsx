@@ -10,6 +10,7 @@ import TextSelectionHandler from "@/components/TextSelectionHandler/TextSelectio
 const ReadingPage = () => {
   const storeValue = useStore(deepseekResponseStore);
   const [summary, setSummary] = useState("");
+  console.log({summary})
 
   useEffect(() => {
     const initSummary = async () => {
@@ -26,12 +27,14 @@ const ReadingPage = () => {
       if (cached) {
         try {
           const parsed = JSON.parse(cached);
+          console.log({parsed}) 
           const localSummary = parsed?.summary;
           if (localSummary && localSummary.length > 0) {
             console.log("ReadingPage desde localstorage")
 
             deepseekResponseStore.set(parsed);
             setSummary(localSummary);
+            console.log(localSummary)
             return;
           }
         } catch (err) {

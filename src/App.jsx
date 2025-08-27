@@ -20,7 +20,7 @@ function App () {
   const [indexLiTranslated, setIndexLiTranslated] = useState(null)
   const [currentTime, setCurrentTime] = useState(0); // Tiempo reproducido
   const [duration, setDuration] = useState(0); // Duración total
-
+const [summaryAndExercisesOK, setSummaryAndExercisesOK] = useState(null)
   const playerRef = useRef(null);
 
   useEffect(() => {
@@ -66,6 +66,14 @@ function App () {
 
   const [englishLevel, setEnglishLevel] = useState("")
 
+  useEffect(() => {
+    const summaryAndExercisesOKRefInLocalStorage = localStorage.getItem("summaryAndExercisesOK")
+    if (summaryAndExercisesOKRefInLocalStorage) {
+      console.log("summaryAndExercisesOKRefInLocalStorage: ", summaryAndExercisesOKRefInLocalStorage)
+   setSummaryAndExercisesOK(summaryAndExercisesOKRefInLocalStorage)
+    }
+  }, [])
+
 
 
   return (
@@ -87,6 +95,7 @@ function App () {
           duration={duration}
           setCurrentTime={setCurrentTime}
           setIndexLiTranslated={setIndexLiTranslated}
+          summaryAndExercisesOK={summaryAndExercisesOK}
 
         />
       }
@@ -100,6 +109,7 @@ function App () {
           currentSegmentIndex={currentSegmentIndex}
           indexLiTranslated={indexLiTranslated}
           englishLevel={englishLevel}
+          setSummaryAndExercisesOK={setSummaryAndExercisesOK}
         />
 
       }
