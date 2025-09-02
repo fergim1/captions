@@ -1,0 +1,41 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./  # si tu package.json está en la raíz del repo
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: ./  # ruta de tu frontend
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+          script: |
+            cd /var/www/youtube-videos/client
+            git fetch origin
+            git reset --hard origin/main
+            npm ci
+            npm run build
+            sudo systemctl restart nginx
