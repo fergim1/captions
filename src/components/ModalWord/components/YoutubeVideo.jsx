@@ -177,7 +177,7 @@ export const YouTubeVideo = ({
         <div className="flex flex-row justify-center items-center gap-6 w-1/3">
           <button
             onClick={handleDeleteCache}
-            className={playing ? "text-[#8888]" : "text-white"}
+            className={playing ? "text-[#8888]" : "text-blue-300"}
           >
             <FontAwesomeIcon icon={faTrash} />
           </button>
