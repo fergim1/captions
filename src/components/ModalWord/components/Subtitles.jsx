@@ -19,33 +19,6 @@ export const Subtitles = ({ setSummaryAndExercisesOK, videoId, transcript, setTr
       return;
     }
 
-    // fetchData viejo
-    // const fetchData = async () => {
-    //   setLoading(true);
-    //   setError(null);
-    //   try {
-    //     const response = await fetchSubtitles(videoId, 'en', englishLevel);
-    //     const { subtitles, totalText, deepseekResponse } = response
-    //     updateDeepseekResponse(deepseekResponse)
-    //     localStorage.setItem('totalText', JSON.stringify(totalText));
-    //     localStorage.setItem('deepseekResponse', JSON.stringify(deepseekResponse));
-    //     const dataVideoToSave = {
-    //       videoId,
-    //       englishLevel,
-    //       subtitles,
-    //       totalText,
-    //       deepseekResponse,
-    //       createdAt: new Date()
-    //     }
-    //     saveDataVideoToFirestore(dataVideoToSave)
-    //     setTranscript(subtitles);
-    //   } catch (err) {
-    //     setError(true);
-    //     console.error("Error fetching subtitles:", err);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
 
   /////////////////////
  // fetchData Nuevo
@@ -67,10 +40,10 @@ export const Subtitles = ({ setSummaryAndExercisesOK, videoId, transcript, setTr
     setLoading(false);
 
 
-    if (response) {
-      // Iniciar el polling para obtener deepseekResponse
-      await pollForDeepseekData(videoId);
-    }
+    // if (response) {
+    //   // Iniciar el polling para obtener deepseekResponse
+    //   await pollForDeepseekData(videoId);
+    // }
   } catch (err) {
     setError(true);
     console.error("Error fetching subtitles:", err);
@@ -80,34 +53,34 @@ export const Subtitles = ({ setSummaryAndExercisesOK, videoId, transcript, setTr
 };
 
 // Función para realizar el polling
-const pollForDeepseekData = async (videoId) => {
-  const maxAttempts = 15; // Número máximo de intentos
-  const interval = 20000; // Intervalo entre intentos (en milisegundos)
-  let attempts = 0;
+// const pollForDeepseekData = async (videoId) => {
+//   const maxAttempts = 15; // Número máximo de intentos
+//   const interval = 20000; // Intervalo entre intentos (en milisegundos)
+//   let attempts = 0;
 
-  while (attempts < maxAttempts) {
-    try {
-      const resp = await fetch(`${url_server}/api/transcript/result?videoId=${videoId}`);
-      if (resp.ok) {
-        const deepseekResponse = await resp.json();
-        console.log("deepseekResponse", deepseekResponse);
-        updateDeepseekResponse(deepseekResponse);
-        localStorage.setItem('deepseekResponse', JSON.stringify(deepseekResponse));
-        setSummaryAndExercisesOK(true)
-        localStorage.setItem("summaryAndExercisesOK", true)
-        return; // Salir del bucle si los datos están listos
-      }
-    } catch (err) {
-      console.error("Error fetching Deepseek data:", err);
-    }
+//   while (attempts < maxAttempts) {
+//     try {
+//       const resp = await fetch(`${url_server}/api/transcript/result?videoId=${videoId}`);
+//       if (resp.ok) {
+//         const deepseekResponse = await resp.json();
+//         console.log("deepseekResponse", deepseekResponse);
+//         updateDeepseekResponse(deepseekResponse);
+//         localStorage.setItem('deepseekResponse', JSON.stringify(deepseekResponse));
+//         setSummaryAndExercisesOK(true)
+//         localStorage.setItem("summaryAndExercisesOK", true)
+//         return; // Salir del bucle si los datos están listos
+//       }
+//     } catch (err) {
+//       console.error("Error fetching Deepseek data:", err);
+//     }
 
-    // Esperar antes del siguiente intento
-    await new Promise((resolve) => setTimeout(resolve, interval));
-    attempts++;
-  }
+//     // Esperar antes del siguiente intento
+//     await new Promise((resolve) => setTimeout(resolve, interval));
+//     attempts++;
+//   }
 
-  console.warn("Max attempts reached. Deepseek data not available.");
-};
+//   console.warn("Max attempts reached. Deepseek data not available.");
+// };
 
     const getDataFromFirestore = async () => {
       const dataOfVideoFromFirestore = await getVideoByVideoIdFromFirestore(videoId, englishLevel)

@@ -36,7 +36,6 @@ export const InputSection = ({ setVideoId, englishLevel, setEnglishLevel }) => {
   };
 
   const handleSelect = (value) => {
-    console.log("englishLevel: ", value)
     setEnglishLevel(value)
   }
 

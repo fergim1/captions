@@ -2,10 +2,12 @@
 import { useState, useEffect } from 'react';
 import YoutubePlayer from 'react-player/youtube';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faTrash, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark, faVolumeHigh, faBars, faX } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faTrash, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark, faVolumeHigh, faBars, faX, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
 import { Slider } from "@/components/ui/slider"
 import { formatTime } from '@/utils/utils';
 import SideBar from '../../SideBar/SideBar';
+import { updateDeepseekResponse } from '@/stores/deepseekStore';
+const url_server = import.meta.env.VITE_URL_SERVER;
 
 export const YouTubeVideo = ({
   videoId,
@@ -20,13 +22,16 @@ export const YouTubeVideo = ({
   duration,
   setCurrentTime,
   setIndexLiTranslated,
-  summaryAndExercisesOK
+  summaryAndExercisesOK,
+  englishLevel,
+  setSummaryAndExercisesOK
 }) => {
 
   const [valueSlider, setValueSlider] = useState(0)
   const [showValueSlider, setShowValueSlider] = useState(false)
   const [muted, seTmuted] = useState(false)
   const [openSideBar, setOpenSideBar] = useState(false)
+  const [buttonIAisClicked, setButtonIAisClicked] = useState(false);
 
 
   useEffect(() => {
@@ -117,6 +122,47 @@ export const YouTubeVideo = ({
     setOpenSideBar(true)
   }
 
+  const handleIA = (videoId, englishLevel) => {
+    console.log("handleIA")
+    console.log({videoId})
+    console.log({englishLevel})
+    if(summaryAndExercisesOK) return
+    setButtonIAisClicked(true)
+    pollForDeepseekData(videoId, englishLevel)
+  }
+console.log({summaryAndExercisesOK})
+
+  // Función para realizar el polling
+  const pollForDeepseekData = async (videoId, englishLevel) => {
+    const maxAttempts = 15; // Número máximo de intentos
+    const interval = 20000; // Intervalo entre intentos (en milisegundos)
+    let attempts = 0;
+  
+    while (attempts < maxAttempts) {
+      try {
+        const resp = await fetch(`${url_server}/api/transcript/result?videoId=${videoId}&englishLevel=${englishLevel}`);
+        if (resp.ok) {
+          const deepseekResponse = await resp.json();
+          console.log("deepseekResponse", deepseekResponse);
+          updateDeepseekResponse(deepseekResponse);
+          localStorage.setItem('deepseekResponse', JSON.stringify(deepseekResponse));
+          setSummaryAndExercisesOK(true)
+          localStorage.setItem("summaryAndExercisesOK", true)
+          return; // Salir del bucle si los datos están listos
+        }
+      } catch (err) {
+        console.error("Error fetching Deepseek data:", err);
+      }
+  
+      // Esperar antes del siguiente intento
+      await new Promise((resolve) => setTimeout(resolve, interval));
+      attempts++;
+    }
+  
+    console.warn("Max attempts reached. Deepseek data not available.");
+  };
+  
+
 
   return (
     <div className='wrapper-video-and-controls' >
@@ -175,9 +221,20 @@ export const YouTubeVideo = ({
       <div className='react-player-controls'>
 
         <div className="flex flex-row justify-center items-center gap-6 w-1/3">
+        <button
+            onClick={() => handleIA(videoId, englishLevel)}
+            className={
+              playing || summaryAndExercisesOK
+              ? "text-[#8888]" : buttonIAisClicked
+              ? "text-blue-300" : "text-white"}
+         >
+            <FontAwesomeIcon icon={faWandMagicSparkles} />
+
+          </button>
+
           <button
             onClick={handleDeleteCache}
-            className={playing ? "text-[#8888]" : "text-blue-300"}
+            className={playing ? "text-[#8888]" : "text-white"}
           >
             <FontAwesomeIcon icon={faTrash} />
           </button>

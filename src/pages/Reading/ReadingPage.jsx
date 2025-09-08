@@ -10,7 +10,6 @@ import TextSelectionHandler from "@/components/TextSelectionHandler/TextSelectio
 const ReadingPage = () => {
   const storeValue = useStore(deepseekResponseStore);
   const [summary, setSummary] = useState("");
-  console.log({summary})
 
   useEffect(() => {
     const initSummary = async () => {
@@ -27,14 +26,11 @@ const ReadingPage = () => {
       if (cached) {
         try {
           const parsed = JSON.parse(cached);
-          console.log({parsed}) 
           const localSummary = parsed?.summary;
           if (localSummary && localSummary.length > 0) {
             console.log("ReadingPage desde localstorage")
-
             deepseekResponseStore.set(parsed);
             setSummary(localSummary);
-            console.log(localSummary)
             return;
           }
         } catch (err) {
@@ -44,12 +40,10 @@ const ReadingPage = () => {
 
       // 3. Desde Firestore
       const videoId = localStorage.getItem("videoId");
-      console.log(`ReadingPage: videoId obtenido desde localStorage : ${videoId}`)
-
       const deepseek = await getDeepseekResponseFromFirestore(videoId);
       const firestoreSummary = deepseek?.summary;
       if (firestoreSummary && firestoreSummary.length > 0) {
-        console.log("readingPage desde firestore")
+        console.log("ReadingPage desde firestore")
 
         deepseekResponseStore.set(deepseek);
         localStorage.setItem("deepseekResponse", JSON.stringify(deepseek));

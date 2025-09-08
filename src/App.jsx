@@ -96,6 +96,8 @@ const [summaryAndExercisesOK, setSummaryAndExercisesOK] = useState(null)
           setCurrentTime={setCurrentTime}
           setIndexLiTranslated={setIndexLiTranslated}
           summaryAndExercisesOK={summaryAndExercisesOK}
+          englishLevel={englishLevel}
+          setSummaryAndExercisesOK={setSummaryAndExercisesOK}
 
         />
       }
