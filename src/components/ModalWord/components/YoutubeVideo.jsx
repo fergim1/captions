@@ -2,11 +2,12 @@
 import { useState, useEffect } from 'react';
 import YoutubePlayer from 'react-player/youtube';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faTrash, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark, faVolumeHigh, faBars, faX, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faTrash, faRotateLeft, faArrowRotateRight, faPause, faVolumeXmark, faVolumeHigh, faBars, faX, faWandMagicSparkles, faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { Slider } from "@/components/ui/slider"
 import { formatTime } from '@/utils/utils';
 import SideBar from '../../SideBar/SideBar';
 import { updateDeepseekResponse } from '@/stores/deepseekStore';
+import { useNavigate } from 'react-router';
 const url_server = import.meta.env.VITE_URL_SERVER;
 
 export const YouTubeVideo = ({
@@ -33,7 +34,7 @@ export const YouTubeVideo = ({
   const [openSideBar, setOpenSideBar] = useState(false)
   const [buttonIAisClicked, setButtonIAisClicked] = useState(false);
 
-
+console.log({englishLevel})
   useEffect(() => {
     const savedTime = parseFloat(localStorage.getItem("current"));
     if (savedTime && playerRef.current) {
@@ -130,7 +131,6 @@ export const YouTubeVideo = ({
     setButtonIAisClicked(true)
     pollForDeepseekData(videoId, englishLevel)
   }
-console.log({summaryAndExercisesOK})
 
   // Función para realizar el polling
   const pollForDeepseekData = async (videoId, englishLevel) => {
@@ -161,7 +161,15 @@ console.log({summaryAndExercisesOK})
   
     console.warn("Max attempts reached. Deepseek data not available.");
   };
+
+  let navigate = useNavigate();
   
+  const handleExcercises = (videoId, englishLevel) => {
+    console.log("handleExcercises")
+    console.log({videoId})
+    console.log({englishLevel})
+    navigate("/exercise-generator")
+  }
 
 
   return (
@@ -221,6 +229,13 @@ console.log({summaryAndExercisesOK})
       <div className='react-player-controls'>
 
         <div className="flex flex-row justify-center items-center gap-6 w-1/3">
+        <button
+            onClick={() => handleExcercises(videoId, englishLevel)}
+            className="text-red-600"
+         >
+            <FontAwesomeIcon icon={faDumbbell} />
+
+          </button>
         <button
             onClick={() => handleIA(videoId, englishLevel)}
             className={

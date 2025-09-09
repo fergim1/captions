@@ -74,6 +74,13 @@ const [summaryAndExercisesOK, setSummaryAndExercisesOK] = useState(null)
     }
   }, [])
 
+  useEffect(() => {
+    const englishLevelFromLocalStorage = localStorage.getItem("englishLevel");
+    if (englishLevelFromLocalStorage) {
+      console.log("englishLevelFromLocalStorage: ", englishLevelFromLocalStorage);
+      setEnglishLevel(englishLevelFromLocalStorage);
+    }
+  }, []);
 
 
   return (

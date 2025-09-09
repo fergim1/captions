@@ -15,6 +15,7 @@ const ReadingPage = lazy(() => import('./pages/Reading/ReadingPage.jsx'))
 const DefinitionsPage = lazy(() => import('./pages/Definitions/DefinitionsPage.jsx'))
 const MainPointsPage = lazy(() => import('./pages/MainPoints/MainPointsPage.jsx'))
 const TrueOrFalsePage = lazy(() => import('./pages/TrueOrFalsePage/TrueOrFalsePage.jsx'))
+const ExerciseGenerator = lazy(() => import('./components/ModalWord/components/ExerciseGenerator.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -31,6 +32,8 @@ createRoot(document.getElementById('root')).render(
             <Route path="definitions" element={<DefinitionsPage />} />
             <Route path="main-points" element={<MainPointsPage />} />
             <Route path="true-or-false" element={<TrueOrFalsePage />} />
+
+            <Route path="exercise-generator" element={<ExerciseGenerator />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
