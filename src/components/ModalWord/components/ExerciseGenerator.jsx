@@ -25,6 +25,11 @@ console.log({englishLevel})
       const definitions = definitionsSnapshot.docs.map(doc => doc.data());
       const translations = translationsSnapshot.docs.map(doc => doc.data());
 
+      console.log({definitions})
+      console.log({translations})
+      console.log({englishLevel})
+
+
       // 2. Llamar a la API de tu servidor Node.js
 
       const response = await fetch(`${url_server}/api/generate-exercises`, {
@@ -41,6 +46,8 @@ console.log({englishLevel})
 
       const data = await response.json();
       setExercises(data.exercises);
+      console.log("data luego de gemini")
+      console.log(data)
 
     } catch (err) {
       setError(err.message);
